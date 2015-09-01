@@ -1,0 +1,8 @@
+RewriteEngine on
+
+#RewriteBase /var/www/html/PhotoFrame
+# If the request is not a folder or a file, redirects to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]

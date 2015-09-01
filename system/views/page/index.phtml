@@ -1,0 +1,10 @@
+<?php
+/*
+ * Get url param id
+ */
+$_id = $_model->getParam();
+?>
+<section>
+    <p>You see this page? Nice! It's works.</p>
+    <p>This page parameter is <a href="<?php echo URL; ?>page/edit/<?php echo $_id; ?>"><?php echo $_id; ?></a>.</p>
+</section>

@@ -73,3 +73,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Node Path
+node_modules
+
+# Netbeans Path
+nbproject
