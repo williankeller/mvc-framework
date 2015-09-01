@@ -26,7 +26,8 @@ class IndexController extends Controller {
         $content = $this->view->factory('home/index', array('_content' => "Little MVC"));
         
         $data = array(
-            '_title' => 'Little PHP MVC',
+            '_title' => 'Little MVC',
+            '_description' => 'Welcome! This is a little MVC.',
             '_content' => $content
         );
         

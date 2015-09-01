@@ -27,7 +27,6 @@ ini_set('display_errors', 'On');
  */
 define("URL", 'http://projects.mvc/');
 
-
 /*
  * Define if cache is active
  * IMPORTANT: Disable this content on dinamically content
@@ -53,6 +52,33 @@ define("CORE_PATH", APP_PATH . 'core/');
  * Define path of system
  */
 define("SYS_PATH", APP_PATH . 'system/');
+
+/*
+ * Database settings
+ * @DB_HOST
+ * @DB_NAME
+ * @DB_USER
+ * @DB_PASS
+ */
+/*
+ * @DB_HOST
+ */
+define("DB_HOST", 'localhost');
+
+/*
+ * @DB_NAME
+ */
+define("DB_NAME", 'littleMVC');
+
+/*
+ * @DB_USER
+ */
+define("DB_USER", 'root');
+
+/*
+ * @DB_PASS
+ */
+define("DB_PASS", '');
 
 /*
  * Require autoload file
