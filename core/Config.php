@@ -32,7 +32,7 @@ define("URL", 'http://projects.mvc/');
  * Define if cache is active
  * IMPORTANT: Disable this content on dinamically content
  */
-define("CACHE", true);
+define("CACHE", false);
 
 /*
  * Define global app path

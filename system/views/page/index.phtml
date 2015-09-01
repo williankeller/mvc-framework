@@ -4,7 +4,12 @@
  */
 $_id = $_model->getParam();
 ?>
-<section>
-    <p>You see this page? Nice! It's works.</p>
-    <p>This page parameter is <a href="<?php echo URL; ?>page/edit/<?php echo $_id; ?>"><?php echo $_id; ?></a>.</p>
+<section class="container">
+    <div class="row">
+        <div class="column-12 text-center">
+            <p>You see this page? Nice! It's works.</p>
+            <p>This page parameter is <a href="<?php echo URL; ?>page/edit/<?php echo $_id; ?>"><?php echo $_id; ?></a>.</p>
+            <p class="pull-right">You wanna <a href="<?php echo URL; ?>">go back</a>?</p>
+        </div>
+    </div>
 </section>
