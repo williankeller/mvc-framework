@@ -23,11 +23,11 @@ class IndexController extends Controller {
      */
     public function indexAction() {
         
-        $content = $this->view->factory('home/index', array('content' => "Little MVC"));
+        $content = $this->view->factory('home/index', array('_content' => "Little MVC"));
         
         $data = array(
-            'title' => 'Little PHP MVC',
-            'content' => $content
+            '_title' => 'Little PHP MVC',
+            '_content' => $content
         );
         
         $this->view->render($data);

@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Copyright (C) 2015 wkeller
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 abstract class Controller {
 
     /**
@@ -23,21 +24,26 @@ abstract class Controller {
      * @var View
      */
     protected $view;
-    
+
     /**
      * Instance of Model class. This is required for model contents
      * @var Model
      */
     protected $model;
+    
+    
+    protected $cache;
 
     /**
      * Constructor.
      */
     public function __construct() {
-        
+
         $this->view = new View();
-        
+
         $this->model = new Model();
+
+        $this->cache = new Cache();
     }
 
     /**

@@ -50,6 +50,24 @@ class View {
         }
     }
 
+    public function isCacheable($file, $output, $data) {
+
+        if (CACHE === true && !isset($data['_cache'])) {
+
+            $cache = new Cache();
+
+            if (!$cache->get($file)) {
+
+                $cache->put($file, $output);
+            }
+            else {
+                $output = $cache->get($file);
+            }
+        } 
+
+        return $output;
+    }
+
     /**
      * Factory method to create sub-view objects, that is, part of the layout. This method
      * is used to create the variables defined in the layout file.
@@ -67,7 +85,13 @@ class View {
 
                 extract($data);
             }
+
             require_once ROOT_PATH . 'system/views/' . $file . '.phtml';
+            
+            $output = ob_get_clean();
+            
+            $content = $this->isCacheable($file, $output, $data);
+            
         } else {
 
             ob_end_clean();
@@ -75,14 +99,14 @@ class View {
             throw new Exception('View file not found: ' . $file);
         }
 
-        return ob_get_clean();
+        return $content;
     }
 
     /**
      * Render the layout with the availlable sub-views, if any.
      */
     public function render($layoutData = null) {
-        
+
         if (is_array($layoutData)) {
 
             $this->_layoutData = array_merge($this->_layoutData, $layoutData);

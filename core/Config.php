@@ -27,6 +27,13 @@ ini_set('display_errors', 'On');
  */
 define("URL", 'http://projects.mvc/');
 
+
+/*
+ * Define if cache is active
+ * IMPORTANT: Disable this content on dinamically content
+ */
+define("CACHE", true);
+
 /*
  * Define global app path
  */

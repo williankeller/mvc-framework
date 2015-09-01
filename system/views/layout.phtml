@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8">        
+        <title><?php echo $_title; ?></title>
+        <?php if (isset($_description)): ?>
+            <meta name="description" content="<?php echo $_description; ?>">
+        <?php endif; ?>
+        <?php if (isset($_keywords)): ?>
+            <meta name="keywords" content="<?php echo $_keywords; ?>">
+        <?php endif; ?>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?php echo $title; ?></title>
         <link rel="stylesheet" type="text/css" href="<?php echo URL; ?>assets/css/main.css">
     </head>
     <body>
         <div id="wrapper">
-            <?php echo $content; ?>
+            <?php echo $_content; ?>
         </div>
     </body>
 </html>

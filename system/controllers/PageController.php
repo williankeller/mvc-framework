@@ -22,18 +22,23 @@ class PageController extends Controller {
     /**
      * Default action.
      */
-    public function indexAction() {}
+    public function indexAction() {
+        
+    }
 
     /**
      * To page edit action.
      */
     public function editAction() {
 
-        $content = $this->view->factory('page/index', array('_model' => $this->model->load('pageModel')));
+        $content = $this->view->factory('page/index', array(
+            '_cache' => false,
+            '_model' => $this->model->load('pageModel')
+        ));
 
         $data = array(
-            'title' => 'Page to Edit',
-            'content' => $content
+            '_title' => 'Page to Edit',
+            '_content' => $content
         );
 
         $this->view->render($data);
