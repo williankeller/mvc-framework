@@ -23,7 +23,7 @@ class IndexController extends Controller {
      */
     public function indexAction() {
         
-        $content = $this->view->factory('home/index', array('_content' => "LittleMVC"));
+        $content = $this->view->factory('home/index', array('_welcome' => "LittleMVC"));
         
         $data = array(
             '_title' => 'LittleMVC',

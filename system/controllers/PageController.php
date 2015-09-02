@@ -48,6 +48,7 @@ class PageController extends Controller {
 
         $data = array(
             '_title' => 'Page with Parameter',
+            '_description' => 'This page have a parameter on URL',
             '_content' => $content
         );
 
