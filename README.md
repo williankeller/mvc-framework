@@ -14,14 +14,15 @@ Start open global config file
 * Access file ```Config.php``` located on ```core``` folder;
 
 Now you have to define your global url that be used on all links
-* **Important:** Ever end folder with a slash "/" (ever!)
+* **Important:** Always end url with a slash "/" (ever!)
 * Define your global URL on line ```27``` (Ex: http://myapplication.com/)
 
-Define Cache content activation. **Important:** Make disabled this content on dinamically content
+Define Cache content activation. 
+* **Important:** Make disabled this content on dinamically content
 * On line ```33``` use boolean values ```true``` to enable and ```false``` to disable
 
-Now, is a important change. If your application are inside a subfolder, please change this line.
-* **Important:** Ever end folder with a slash "/" (ever!)
+Now, is a important change. If your application are inside a folder, please change this line.
+* **Important:** Always end the folder with a slash "/" (ever!)
 * On line ```38``` after slash "/" add ypu folder (Ex: $_SERVER['DOCUMENT_ROOT'] . '/littleMVC/')
 
 Simple? If you use. Now we start database configuration, try follow this
