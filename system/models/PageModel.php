@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Copyright (C) 2015 wkeller
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,13 +18,14 @@
  */
 
 class PageModel {
-    
     /*
      * Get URL Param
      */
-    public function getParam($var = 0){
-        
+
+    public function getParam($var = 0) {
+
         // Get instance Router to object param
         return Router::getParam($var);
     }
+
 }

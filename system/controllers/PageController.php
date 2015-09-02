@@ -24,6 +24,16 @@ class PageController extends Controller {
      */
     public function indexAction() {
         
+        $content = $this->view->factory('page/index', array(
+            '_model' => $this->model->load('pageModel')
+        ));
+
+        $data = array(
+            '_title' => 'Index page to Parameter',
+            '_content' => $content
+        );
+
+        $this->view->render($data);
     }
 
     /**
@@ -31,13 +41,13 @@ class PageController extends Controller {
      */
     public function editAction() {
 
-        $content = $this->view->factory('page/index', array(
+        $content = $this->view->factory('page/edit', array(
             '_cache' => false,
             '_model' => $this->model->load('pageModel')
         ));
 
         $data = array(
-            '_title' => 'Page to Edit',
+            '_title' => 'Page with Parameter',
             '_content' => $content
         );
 

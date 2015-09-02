@@ -31,8 +31,11 @@ abstract class Controller {
      */
     protected $model;
     
-    
-    protected $cache;
+    /**
+     * Instance of Database class. This is required for model contents
+     * @var Database
+     */
+    #protected $db;
 
     /**
      * Constructor.
@@ -43,7 +46,7 @@ abstract class Controller {
 
         $this->model = new Model();
 
-        $this->cache = new Cache();
+        #$this->db = new Database();
     }
 
     /**

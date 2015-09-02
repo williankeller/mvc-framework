@@ -2,14 +2,14 @@
 /*
  * Get url param id
  */
-$_id = $_model->getParam();
+$_id = rand();
 ?>
 <section class="container">
     <div class="row">
         <div class="column-12 text-center m-top-10">
             <p>You see this page? Nice! It's works.</p>
-            <p>This page parameter is <a href="<?php echo URL; ?>page/edit/<?php echo $_id; ?>"><?php echo $_id; ?></a>.</p>
-            <p class="m-top-1">You wanna <a href="<?php echo URL; ?>">go back</a>?</p>
+            <p>In the next page you can see the url parameter. See <a href="<?php echo URL; ?>page/edit/<?php echo $_id; ?>"><?php echo $_id; ?></a>.</p>
+            <p class="m-top-1">You wanna <a href="<?php echo URL; ?>">go home</a>?</p>
         </div>
     </div>
 </section>

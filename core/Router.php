@@ -77,7 +77,11 @@ class Router {
             $uris = explode('/', trim(self::$_uri, '/'));
             
             self::setController($uris[0]);
-            self::setAction($uris[1]);
+            
+            if (isset($uris[1])) {
+
+                self::setAction($uris[1]);
+            }
             
             if (isset($uris[2])){
                 

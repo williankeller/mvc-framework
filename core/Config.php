@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 wkeller
  *
@@ -39,26 +38,8 @@ define("CACHE", false);
 define("APP_PATH", $_SERVER['DOCUMENT_ROOT'] . '/');
 
 /*
- * Define root path
- */
-define("ROOT_PATH", APP_PATH);
-
-/*
- * Define path of core
- */
-define("CORE_PATH", APP_PATH . 'core/');
-
-/*
- * Define path of system
- */
-define("SYS_PATH", APP_PATH . 'system/');
-
-/*
  * Database settings
- * @DB_HOST
- * @DB_NAME
- * @DB_USER
- * @DB_PASS
+ * @DB_HOST @DB_NAME @DB_USER @DB_PASS
  */
 /*
  * @DB_HOST
@@ -79,6 +60,27 @@ define("DB_USER", 'root');
  * @DB_PASS
  */
 define("DB_PASS", '');
+
+/*
+ * IMPORTANT
+ * Please no change nothing more
+ * Here have super defines and any change can destroy the application
+ * Thanks!
+ */
+/*
+ * Define root path
+ */
+define("ROOT_PATH", APP_PATH);
+
+/*
+ * Define path of core
+ */
+define("CORE_PATH", APP_PATH . 'core/');
+
+/*
+ * Define path of system
+ */
+define("SYS_PATH", APP_PATH . 'system/');
 
 /*
  * Require autoload file
