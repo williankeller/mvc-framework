@@ -41,7 +41,6 @@ class Router {
      * URI components
      * @var string
      */
-
     static private $_controller = null;
     static private $_action = null;
     static private $_id = null;
@@ -71,31 +70,31 @@ class Router {
         $this->setAction('index');
 
         if (isset($_GET['url'])) {
-            
+
             self::setUri($_GET['url']);
 
             $uris = explode('/', trim(self::$_uri, '/'));
-            
+
             self::setController($uris[0]);
-            
+
             if (isset($uris[1])) {
 
                 self::setAction($uris[1]);
             }
-            
-            if (isset($uris[2])){
-                
+
+            if (isset($uris[2])) {
+
                 unset($uris[0]);
                 unset($uris[1]);
-                
+
                 self::setParam(array_values($uris));
             }
         }
 
         $controllerClass = self::getController();
-        
+
         if (!class_exists($controllerClass)) {
-            
+
             throw new Exception('Could not find class ' . $controllerClass);
         }
 
@@ -117,9 +116,9 @@ class Router {
      * @return instance of Router class
      */
     public static function init() {
-        
+
         if (is_null(self::$_instance)) {
-            
+
             self::$_instance = new Router();
         }
 
@@ -130,7 +129,7 @@ class Router {
      * Getter for module.
      */
     static function getModule() {
-        
+
         return self::$_module;
     }
 
@@ -138,7 +137,7 @@ class Router {
      * Getter for controller.
      */
     static function getController() {
-        
+
         return self::$_controller;
     }
 
@@ -146,7 +145,7 @@ class Router {
      * Getter for action.
      */
     static function getAction() {
-        
+
         return self::$_action;
     }
 
@@ -154,7 +153,7 @@ class Router {
      * Getter for id.
      */
     static function getParam($slice = 0) {
-        
+
         return self::$_id[$slice];
     }
 
@@ -162,7 +161,7 @@ class Router {
      * Getter for uri.
      */
     static function getUri() {
-        
+
         return self::$_uri;
     }
 
@@ -171,7 +170,7 @@ class Router {
      * @param string $controller
      */
     private function setController($controller) {
-        
+
         self::$_controller = $controller . 'controller';
     }
 
@@ -180,7 +179,7 @@ class Router {
      * @param string $action
      */
     private function setAction($action) {
-        
+
         self::$_action = $action;
     }
 
@@ -189,7 +188,7 @@ class Router {
      * @param string $id
      */
     private function setParam($id) {
-        
+
         self::$_id = $id;
     }
 
@@ -198,7 +197,7 @@ class Router {
      * @param string $uri
      */
     final private function setUri($uri) {
-        
+
         self::$_uri = $uri;
     }
 

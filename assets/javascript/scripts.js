@@ -1,5 +1,3 @@
-<?php
-
 /* 
  * Copyright (C) 2015 wkeller
  *
@@ -16,22 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-class IndexController extends Controller {
 
-    /**
-     * Default action.
-     */
-    public function indexAction() {
-        
-        $content = $this->view->factory('home/index', array('_content' => "LittleMVC"));
-        
-        $data = array(
-            '_title' => 'LittleMVC',
-            '_description' => 'Welcome! This is a little MVC.',
-            '_content' => $content
-        );
-        
-        $this->view->render($data);
-    }
+;
+(function ($) {
 
-}
+    var define = {
+        b: $('body'),
+        d: $(document),
+        w: $(window)
+    };
+
+    onStart = function () {
+
+        define.b.addClass('started');
+    };
+
+    onStart();
+
+})(jQuery);
+

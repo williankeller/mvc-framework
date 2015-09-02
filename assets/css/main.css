@@ -108,7 +108,6 @@ h6 {
   line-height: 1.6;
   letter-spacing: 0; }
 
-/* Larger than phablet */
 @media (min-width: 550px) {
   h1 {
     font-size: 5.0rem; }

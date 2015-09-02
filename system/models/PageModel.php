@@ -18,14 +18,29 @@
  */
 
 class PageModel {
+    
+    protected $db;
+    
+    public function __construct() {
+        
+        // Instance of DB (PDO)
+        $this->db = new Database();
+    }
+    
     /*
      * Get URL Param
      */
-
     public function getParam($var = 0) {
 
         // Get instance Router to object param
         return Router::getParam($var);
+    }
+    
+    public function getUsers(){
+        
+        $query = $this->db->query("SELECT `id`,`username`,`email` FROM `lmvc_users` ORDER BY `id` DESC");
+        
+        return $query->fetchAll();
     }
 
 }

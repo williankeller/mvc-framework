@@ -43,7 +43,7 @@ class Database {
      * @param string $debug
      */
 
-    public function __construct($host = null, $db_name = null, $password = null, $user = null, $charset = null, $debug = null) {
+    public function __construct() {
 
         // Configura as propriedades novamente.
         // Se você fez isso no início dessa classe, as constantes não serão

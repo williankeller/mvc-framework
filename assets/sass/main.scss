@@ -97,8 +97,6 @@ h6 {
     line-height: 1.6;  
     letter-spacing: 0; 
 }
-
-/* Larger than phablet */
 @media (min-width: 550px) {
     h1 { 
         font-size: 5.0rem; 
@@ -119,7 +117,6 @@ h6 {
         font-size: 1.5rem; 
     }
 }
-
 .container {
     position: relative;
     width: 100%;
@@ -139,7 +136,6 @@ h6 {
     min-height: 1px;
     box-sizing: border-box; 
 }
-
 @for $i from 1 through 12 {
 
     .column-#{$i} { 
@@ -255,15 +251,13 @@ th:last-child, td:last-child {
     display: table;
     clear: both; 
 }
-
 $margins: top bottom left right;
-
 @each $margin in $margins{
-    
+
     @for $i from 1 through 10 {
-        
+
         .m-#{$margin}-#{$i} {
-            
+
             margin-#{$margin}: $i * 10px;
         }
     }

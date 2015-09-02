@@ -30,12 +30,12 @@ abstract class Controller {
      * @var Model
      */
     protected $model;
-    
+
     /**
      * Instance of Database class. This is required for model contents
      * @var Database
      */
-    #protected $db;
+    protected $db;
 
     /**
      * Constructor.
@@ -46,7 +46,7 @@ abstract class Controller {
 
         $this->model = new Model();
 
-        #$this->db = new Database();
+        $this->db = new Database();
     }
 
     /**

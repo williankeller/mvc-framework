@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2015 wkeller
  *
@@ -49,7 +50,7 @@ define("DB_HOST", 'localhost');
 /*
  * @DB_NAME
  */
-define("DB_NAME", 'littleMVC');
+define("DB_NAME", 'littlemvc');
 
 /*
  * @DB_USER
@@ -93,12 +94,11 @@ require_once 'Autoload.php';
 try {
     // Figure out the URL pattern, and instantiate the application
     Router::init();
-    
 } catch (Exception $e) {
-    
+
     // Return error case exception exists
     print '<pre>' . $e->getMessage();
     print '<p>' . $e->getTraceAsString();
-    
+
     exit;
 }

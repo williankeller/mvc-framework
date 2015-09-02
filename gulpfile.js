@@ -18,17 +18,17 @@
 
 'use strict';
 
-var gulp            = require('gulp');
-var sass            = require('gulp-sass');
-var sourcemaps      = require('gulp-sourcemaps');
-var autoprefixer    = require('gulp-autoprefixer');
-var livereload      = require('gulp-livereload');
+var gulp = require('gulp');
+var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
+var autoprefixer = require('gulp-autoprefixer');
+var livereload = require('gulp-livereload');
 var gulpCssGlobbing = require("gulp-css-globbing");
-var imagemin        = require('gulp-imagemin');
-var spritesmith     = require('gulp.spritesmith');
-var cssmin          = require('gulp-cssmin');
-var uglify          = require('gulp-uglify');
-var rename          = require('gulp-rename');
+var imagemin = require('gulp-imagemin');
+var spritesmith = require('gulp.spritesmith');
+var cssmin = require('gulp-cssmin');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
 
 gulp.task('sass:prod', function () {
     gulp.src('./assets/sass/*.scss')
@@ -78,10 +78,10 @@ gulp.task('css:compress', function () {
 });
 
 gulp.task('js:compress', function () {
-    gulp.src('./assets/js/*.js')
+    gulp.src('./assets/javascript/*.js')
             .pipe(rename({suffix: '.min'}))
             .pipe(uglify())
-            .pipe(gulp.dest('./assets/js/'));
+            .pipe(gulp.dest('./assets/javascript/'));
 });
 
 gulp.task('sass:watch', function () {
@@ -92,4 +92,4 @@ gulp.task('sass:watch', function () {
     gulp.watch(['./assets/css/**/*']).on('change', livereload.changed);
 });
 
-gulp.task('default', ['sass:dev', 'sass:watch', 'sprite', 'css:compress', 'js:compress']);
+gulp.task('default', ['sass:dev', 'sass:watch', /*'sprite',*/ 'css:compress', 'js:compress']);
