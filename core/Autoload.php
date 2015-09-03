@@ -28,7 +28,11 @@ function autoloader($class) {
 
     $included = false; // was included?
 
-    foreach ($namespaces as $namespace) { // search for the class file in our namespaces.
+    foreach ($namespaces as $namespace) {
+        
+        /*
+         * Search for the class file in our namespaces
+         */
         $path = $namespace . implode(DIRECTORY_SEPARATOR, explode('_', $class)) . '.php';
 
         if (file_exists($path)) {
