@@ -1,6 +1,5 @@
 <?php
-
-/*
+/**
  * Copyright (C) 2015 wkeller
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,52 +15,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-$autoloaderPaths = Array(
+$namespaces = array(
     CORE_PATH,
     SYS_PATH . 'controllers/',
-    SYS_PATH . 'models/',
+    SYS_PATH . 'models/'
 );
 
-/**
- * Search for classes in all include path locations.
- */
-//$autoloaderPaths = array_unique(array_merge($autoloaderPaths, explode(PATH_SEPARATOR, get_include_path())));
+function autoloader($class)
+{
+    global $namespaces;
 
-/**
- * This is the autoloader method responsible for finding and all the classes
- * Search Class.php file and require it
- * @param string $class
- */
-function autoloader($class) {
+    $included = false; // was included?
 
-    global $autoloaderPaths;
-
-    $file = null;
-
-    /**
-     * Search in all autoloader locations for the class
-     */
-    foreach ($autoloaderPaths as $path) {
-
-        $filename = $path . ucfirst(strtolower($class)) . '.php';
-
-        if (file_exists($filename)) {
-            
-            $file = $filename;
-            break;
+    foreach ($namespaces as $namespace) { // search for the class file in our namespaces.
+        $path = $namespace . implode(DIRECTORY_SEPARATOR, explode('_', $class)) . '.php'; 
+        if (file_exists($path)) {
+            $included = true;
+            require_once $path;
         }
     }
-
-    if (is_null($file)) {
-
-        throw new Exception('Autoloader could not find class - ' . $class . '.php');
-    } else {
-        require $file;
+    
+    if (!$included) {
+        throw new Exception(sprintf("Failed to load class named [%s].", $class));
+        exit;
     }
 }
 
-/**
- * Registers custom autoloader method
- */
 spl_autoload_register("autoloader");
