@@ -82,3 +82,6 @@ nbproject
 
 # Remove cache files
 cache/
+
+# Remove sass cache
+.sass-cache
