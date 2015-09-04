@@ -32,10 +32,10 @@ abstract class Controller {
     protected $model;
 
     /**
-     * Instance of Database class. This is required for model contents
-     * @var Database
-     */
-    protected $db;
+     * Instance of Translate class. This is required for tranlate contents
+     * @var Translate
+     */    
+    protected $translate;
 
     /**
      * Constructor.
@@ -45,8 +45,8 @@ abstract class Controller {
         $this->view = new View();
 
         $this->model = new Model();
-
-        $this->db = new Database();
+        
+        $this->translate = new Translate();
     }
 
     /**

@@ -17,26 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class IndexController extends Controller {
+class ChangeController extends Controller {
 
     /**
      * Default action.
      */
     public function indexAction() {
+        
+    }
+    
+    /*
+     * Function to get lang Action
+     */
+    public function langAction() {
 
-        $content = $this->view->factory('home/index', array(
-            '_welcome' => "LittleMVC",
-            '_translate' => $this->translate
-        ));
-
-        $data = array(
-            '_title' => 'LittleMVC',
-            '_description' => 'Welcome! This is a little MVC.',
-            '_content' => $content,
-            '_translate' => $this->translate
-        );
-
-        $this->view->render($data);
+        $this->translate->setLang(Router::getParam());
+        
+         header("Location:" . $_SERVER['HTTP_REFERER']);
     }
 
 }

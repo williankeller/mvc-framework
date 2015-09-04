@@ -14,82 +14,146 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+var basePaths = {
+    src: 'assets/',
+    dest: 'assets/',
+    bower: 'bower_components/'
+};
+var paths = {
+    images: {
+        src: basePaths.src + 'images/',
+        dest: basePaths.dest + 'images/min/'
+    },
+    scripts: {
+        src: basePaths.src + 'js/',
+        dest: basePaths.dest + 'js/min/'
+    },
+    styles: {
+        src: basePaths.src + 'sass/',
+        dest: basePaths.dest + 'css/min/'
+    },
+    sprite: {
+        src: basePaths.src + 'images/sprite/*'
+    }
+};
 
+var appFiles = {
+    styles: paths.styles.src + '**/*.scss',
+    scripts: [paths.scripts.src + 'scripts.js']
+};
 
-'use strict';
+var vendorFiles = {
+    styles: '',
+    scripts: ''
+};
 
+var spriteConfig = {
+    imgName: 'sprite.png',
+    cssName: '_sprite.scss',
+    imgPath: paths.images.dest.replace('public', '') + 'sprite.png' // Gets put in the css
+};
+
+/*
+ Let the magic begin
+ */
 var gulp = require('gulp');
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
-var autoprefixer = require('gulp-autoprefixer');
-var livereload = require('gulp-livereload');
-var gulpCssGlobbing = require("gulp-css-globbing");
-var imagemin = require('gulp-imagemin');
-var spritesmith = require('gulp.spritesmith');
-var cssmin = require('gulp-cssmin');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
 
-gulp.task('sass:prod', function () {
-    gulp.src('./assets/sass/*.scss')
-            .pipe(sass().on('error', sass.logError))
-            .pipe(autoprefixer({
-                browsers: ['last 2 version']
-            }))
-            .pipe(gulp.dest('./assets/css'));
+var es = require('event-stream');
+var gutil = require('gulp-util');
+
+var plugins = require("gulp-load-plugins")({
+    pattern: ['gulp-*', 'gulp.*'],
+    replaceString: /\bgulp[\-.]/
 });
 
-gulp.task('sass:dev', function () {
-    gulp.src('./assets/sass/*.scss')
-            .pipe(gulpCssGlobbing({
+// Allows gulp --dev to be run for a more verbose output
+var isProduction = true;
+var sassStyle = 'compressed';
+var sourceMap = false;
+
+if (gutil.env.dev === true) {
+    sassStyle = 'expanded';
+    sourceMap = true;
+    isProduction = false;
+}
+
+var changeEvent = function (evt) {
+    gutil.log('File', gutil.colors.cyan(evt.path.replace(new RegExp('/.*(?=/' + basePaths.src + ')/'), '')), 'was', gutil.colors.magenta(evt.type));
+};
+
+/*
+ * Compile SASS
+ * Compress CSS
+ */
+gulp.task('css', function () {
+
+    var sassFiles = gulp.src(appFiles.styles)
+            .pipe(plugins.cssGlobbing({
                 extensions: ['.scss']
             }))
-            .pipe(sourcemaps.init())
-            .pipe(sass({includePaths: [
-                    'node_modules/breakpoint-sass/stylesheets/'
-                ]}).on('error', sass.logError))
-            .pipe(autoprefixer({
-                browsers: ['last 2 version']
+            .pipe(plugins.rubySass({
+                style: sassStyle, sourcemap: sourceMap, precision: 2
             }))
-            .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest('./assets/css'));
+            .on('error', function (err) {
+                new gutil.PluginError('CSS', err, {showStack: true});
+            });
+
+    return es.concat(gulp.src(vendorFiles.styles), sassFiles)
+            .pipe(plugins.concat('main.min.css'))
+            .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4', 'Firefox >= 4'))
+            .pipe(isProduction ? plugins.combineMediaQueries({
+                log: true
+            }) : gutil.noop())
+            .pipe(isProduction ? plugins.cssmin() : gutil.noop())
+            .pipe(plugins.size())
+            .pipe(gulp.dest(paths.styles.dest));
 });
 
+/*
+ * Compress scripts
+ */
+gulp.task('scripts', function () {
+
+    gulp.src(vendorFiles.scripts.concat(appFiles.scripts))
+            .pipe(plugins.concat('app.min.js'))
+            .pipe(isProduction ? plugins.uglify() : gutil.noop())
+            .pipe(plugins.size())
+            .pipe(gulp.dest(paths.scripts.dest));
+
+});
+
+/*
+ * Sprite Generator
+ */
 gulp.task('sprite', function () {
-    var spriteData = gulp.src('./assets/images/**/*.png').pipe(spritesmith({
-        imgName: 'sprite.png',
-        cssName: './assets/sass/variables/_sprite.scss'
+    var spriteData = gulp.src(paths.sprite.src).pipe(plugins.spritesmith({
+        imgName: spriteConfig.imgName,
+        cssName: spriteConfig.cssName,
+        imgPath: spriteConfig.imgPath,
+        cssOpts: {
+            functions: false
+        },
+        cssVarMap: function (sprite) {
+            sprite.name = 'sprite-' + sprite.name;
+        }
     }));
-
-    spriteData.img
-            .pipe(imagemin())
-            .pipe(gulp.dest('./assets/images/sprite/'));
-
-    spriteData.css
-            .pipe(gulp.dest('./assets/sass/variables/'));
-
+    spriteData.img.pipe(gulp.dest(paths.images.dest));
+    spriteData.css.pipe(gulp.dest(paths.styles.src));
 });
 
-gulp.task('css:compress', function () {
-    gulp.src('./assets/css/**/*.css')
-            .pipe(cssmin())
-            .pipe(rename({suffix: '.min'}))
-            .pipe(gulp.dest('./assets/css'));
+/*
+ * Watch content changes
+ */
+gulp.task('watch', ['sprite', 'css', 'scripts'], function () {
+    gulp.watch(appFiles.styles, ['css']).on('change', function (evt) {
+        changeEvent(evt);
+    });
+    gulp.watch(paths.scripts.src + '*.js', ['scripts']).on('change', function (evt) {
+        changeEvent(evt);
+    });
+    gulp.watch(paths.sprite.src, ['sprite']).on('change', function (evt) {
+        changeEvent(evt);
+    });
 });
 
-gulp.task('js:compress', function () {
-    gulp.src('./assets/javascript/*.js')
-            .pipe(rename({suffix: '.min'}))
-            .pipe(uglify())
-            .pipe(gulp.dest('./assets/javascript/'));
-});
-
-gulp.task('sass:watch', function () {
-    gulp.watch('./assets/sass/**/*.scss', ['sass:dev']);
-
-    livereload.listen();
-
-    gulp.watch(['./assets/css/**/*']).on('change', livereload.changed);
-});
-
-gulp.task('default', ['sass:dev', 'sass:watch', /*'sprite',*/ 'css:compress', 'js:compress']);
+gulp.task('default', ['css', 'watch'/*, 'scripts'*/]);
