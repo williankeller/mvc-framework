@@ -16,6 +16,10 @@
         <div id="wrapper">
             <?php echo $_content; ?>
         </div>
+        <div class="to-translate text-center m-top-10">
+            <p><?php echo $_translate->__('Language'); ?></p>
+            <a href="<?php echo URL; ?>change/lang/pt-br">Português (BR)</a> | <a href="<?php echo URL; ?>change/lang/en-us">English (US)</a>
+        </div>
     </body>
     <script src="<?php echo URL; ?>assets/js/lib/jquery.min.js"></script>
     <script src="<?php echo URL; ?>assets/js/min/app.min.js"></script>

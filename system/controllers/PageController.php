@@ -23,14 +23,16 @@ class PageController extends Controller {
      * Default action.
      */
     public function indexAction() {
-        
+
         $content = $this->view->factory('page/index', array(
-            '_model' => $this->model->load('pageModel')
+            '_model' => $this->model->load('pageModel'),
+            '_translate' => $this->translate
         ));
 
         $data = array(
-            '_title' => 'Index page to Parameter',
-            '_content' => $content
+            '_title' => $this->translate->__('Index page to Parameter'),
+            '_content' => $content,
+            '_translate' => $this->translate
         );
 
         $this->view->render($data);
@@ -43,13 +45,15 @@ class PageController extends Controller {
 
         $content = $this->view->factory('page/edit', array(
             '_cache' => false,
-            '_model' => $this->model->load('pageModel')
+            '_model' => $this->model->load('pageModel'),
+            '_translate' => $this->translate
         ));
 
         $data = array(
-            '_title' => 'Page with Parameter',
+            '_title' => $this->translate->__('Page with Parameter'),
             '_description' => 'This page have a parameter on URL',
-            '_content' => $content
+            '_content' => $content,
+            '_translate' => $this->translate
         );
 
         $this->view->render($data);

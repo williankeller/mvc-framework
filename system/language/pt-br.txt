@@ -1,0 +1,12 @@
+Welcome! This is the littleMVC.=Bem-vindo! Este é o littleMVC.
+See another page:=Veja outra página:
+Exemple page with URL parameter=Exemplo de página com parâmetro na URL
+You see this page? Nice! It's works.=Você vê esta página? Ótimo! Está funcionando.
+In the next page you can see the url parameter. See=Na próxima página você pode ver o parâmetro na url. Veja
+Index page to Parameter=Página para o parâmetro
+Page with Parameter=Página com Parâmetro
+This page took the parameter=Esta página pegou o parâmetro
+You wanna=Quer
+go home=voltar ao início
+go back=voltar
+Language=Idioma
