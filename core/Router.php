@@ -69,45 +69,36 @@ class Router {
         $this->setController('Index');
         $this->setAction('index');
 
-        if (isset($_GET['url'])) {
-
-            self::setUri($_GET['url']);
-
-            $uris = explode('/', trim(self::$_uri, '/'));
-
-            self::setController($uris[0]);
-
-            if (isset($uris[1])) {
-
-                self::setAction($uris[1]);
+        if (filter_input(INPUT_GET, 'url')) {
+            
+            $url = explode('/', filter_input(INPUT_GET, 'url')); // isn't safe to access super global variables without a filter input.
+            
+            self::setUri($url);
+            
+            $controller = array_shift($url);
+            $action = array_shift($url);
+            $param = array_values($url);
+            
+            if (!empty($controller)) {
+                self::setController($controller);
             }
-
-            if (isset($uris[2])) {
-
-                unset($uris[0]);
-                unset($uris[1]);
-
-                self::setParam(array_values($uris));
+            if (!empty($action)) {
+                self::setAction($action);
             }
+            
+            self::setParam($param);
         }
 
-        $controllerClass = self::getController();
-
-        if (!class_exists($controllerClass)) {
-
-            throw new Exception('Could not find class ' . $controllerClass);
+        $controllerName = self::getController() . 'Controller';
+        $actionName = self::getAction() . 'Action';
+        
+        $controllerClass = new $controllerName();
+        
+        if (!method_exists($controllerClass, $actionName)) {
+            throw new Exception(sprintf("[%s] class does not have a method called [%s].", $controllerName, $actionName));
         }
-
-        $controller = new $controllerClass;
-
-        $method = self::getAction() . 'Action';
-
-        if (!method_exists($controller, $method)) {
-
-            throw new Exception(get_class($controller) . " class does not have a method '$method'. Exiting...");
-        }
-
-        $controller->$method();
+        
+        $controllerClass->$actionName();
     }
 
     /**
@@ -171,7 +162,7 @@ class Router {
      */
     private function setController($controller) {
 
-        self::$_controller = $controller . 'controller';
+        self::$_controller = $controller;
     }
 
     /**
