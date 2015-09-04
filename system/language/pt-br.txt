@@ -1,4 +1,4 @@
-Welcome! This is the littleMVC.=Bem-vindo! Este é o littleMVC.
+Welcome! This is the %s=Bem-vindo! Este é o %s
 See another page:=Veja outra página:
 Exemple page with URL parameter=Exemplo de página com parâmetro na URL
 You see this page? Nice! It's works.=Você vê esta página? Ótimo! Está funcionando.
