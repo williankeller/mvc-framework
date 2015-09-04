@@ -20,18 +20,6 @@
 class Router {
 
     /**
-     * This array defines url configuration
-     * Complete pattern looks like '/module/controller/action/id/name/seo'
-     * Comment out in the array the components which are not requierd
-     * @var array URL segments
-     */
-    private static $urlConfig = array(
-        'controller',
-        'action',
-        'param'
-    );
-
-    /**
      * Instance to enforce singleton
      * @var unknown_type
      */
@@ -70,35 +58,50 @@ class Router {
         $this->setAction('index');
 
         if (filter_input(INPUT_GET, 'url')) {
-            
-            $url = explode('/', filter_input(INPUT_GET, 'url')); // isn't safe to access super global variables without a filter input.
-            
+
+            /*
+             * Isn't safe to access super global variables without a filter input.
+             */
+            $url = explode('/', filter_input(INPUT_GET, 'url'));
+
             self::setUri($url);
-            
-            $controller = array_shift($url);
-            $action = array_shift($url);
-            $param = array_values($url);
-            
-            if (!empty($controller)) {
-                self::setController($controller);
+
+            $value = $this->shiftURL($url);
+
+            if (!empty($value['controller'])) {
+
+                self::setController($value['controller']);
             }
-            if (!empty($action)) {
-                self::setAction($action);
+            if (!empty($value['action'])) {
+
+                self::setAction($value['action']);
             }
-            
-            self::setParam($param);
+
+            self::setParam($value['param']);
         }
 
         $controllerName = self::getController() . 'Controller';
         $actionName = self::getAction() . 'Action';
-        
+
         $controllerClass = new $controllerName();
-        
+
         if (!method_exists($controllerClass, $actionName)) {
+
             throw new Exception(sprintf("[%s] class does not have a method called [%s].", $controllerName, $actionName));
         }
-        
+
         $controllerClass->$actionName();
+    }
+
+    private function shiftURL($url) {
+
+        $value = array();
+
+        $value['controller'] = array_shift($url);
+        $value['action'] = array_shift($url);
+        $value['param'] = array_values($url);
+
+        return $value;
     }
 
     /**
