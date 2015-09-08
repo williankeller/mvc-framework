@@ -1,6 +1,6 @@
 <?php
 
-/**
+/* 
  * Copyright (C) 2015 wkeller
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,36 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-$namespaces = array(
-    CORE_PATH,
-    SYS_PATH . 'controllers/',
-    SYS_PATH . 'models/'
-);
 
-/*
- * Autoload Function
- */
-function autoloader($class) {
+class ErrorController extends Controller {
+
+    /**
+     * Default action.
+     */
+    public function indexAction() {
+        
+    }
     
     /*
-     * Define namespaces with global
+     * Function to get lang Action
      */
-    global $namespaces;
+    public function error404Action() {
 
-    foreach ($namespaces as $namespace) {
-        
-        /*
-         * Search for the class file in our namespaces
-         */
-        $path = $namespace . implode(DIRECTORY_SEPARATOR, explode('_', $class)) . '.php';
+       $content = $this->view->factory('error/404', array(
+            '_translate' => $this->translate
+        ));
 
-        if (file_exists($path)) {
+        $data = array(
+            '_title' => 'Page not Found | Error 404',
+            '_description' => 'Sorry 404! Page not found',
+            '_content' => $content,
+            '_translate' => $this->translate
+        );
 
-            require_once $path;
-        }
+        $this->view->render($data);
     }
 }
-/*
- * Register autoload function
- */
-spl_autoload_register("autoloader");

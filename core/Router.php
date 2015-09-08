@@ -57,12 +57,12 @@ class Router {
         $this->setController('Index');
         $this->setAction('index');
 
-        if (filter_input(INPUT_GET, 'url')) {
+        if (($input_get = filter_input(INPUT_GET, 'url'))) {
 
             /*
              * Isn't safe to access super global variables without a filter input.
              */
-            $url = explode('/', filter_input(INPUT_GET, 'url'));
+            $url = explode('/', $input_get);
 
             self::setUri($url);
 
@@ -80,18 +80,52 @@ class Router {
             self::setParam($value['param']);
         }
 
-        $controllerName = self::getController() . 'Controller';
-        $actionName = self::getAction() . 'Action';
+        $this->startPage(self::getController() . 'Controller', self::getAction() . 'Action');
+    }
 
-        $controllerClass = new $controllerName();
+    /*
+     * Start page class
+     */
+
+    public function startPage($controllerName, $actionName) {
+
+        if (class_exists($controllerName)) {
+
+            $controllerClass = new $controllerName();
+
+            if (!method_exists($controllerClass, $actionName)) {
+
+                throw new Exception(sprintf("[%s] class does not have a method called [%s].", $controllerName, $actionName));
+            }
+
+            $controllerClass->$actionName();
+        } else {
+
+            $this->toErrorPage('404');
+        }
+    }
+
+    /*
+     * Create page to error
+     */
+
+    private function toErrorPage($error) {
+
+        $actionName = 'error' . $error . 'Action';
+
+        $controllerClass = new ErrorController();
 
         if (!method_exists($controllerClass, $actionName)) {
 
-            throw new Exception(sprintf("[%s] class does not have a method called [%s].", $controllerName, $actionName));
+            throw new Exception(sprintf("[%s] class does not have a method called [%s].", $controllerClass, $actionName));
         }
 
         $controllerClass->$actionName();
     }
+
+    /*
+     * Shift to separate URI itens
+     */
 
     private function shiftURL($url) {
 
