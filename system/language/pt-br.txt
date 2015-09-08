@@ -10,3 +10,5 @@ You wanna=Quer
 go home=voltar ao início
 go back=voltar
 Language=Idioma
+Error 404!=Erro 404!
+Page not found...=Página não encontrada...
