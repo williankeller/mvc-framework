@@ -86,7 +86,6 @@ class Router {
     /*
      * Start page class
      */
-
     public function startPage($controllerName, $actionName) {
 
         if (class_exists($controllerName)) {
@@ -108,7 +107,6 @@ class Router {
     /*
      * Create page to error
      */
-
     private function toErrorPage($error) {
 
         $actionName = 'error' . $error . 'Action';
@@ -126,7 +124,6 @@ class Router {
     /*
      * Shift to separate URI itens
      */
-
     private function shiftURL($url) {
 
         $value = array();

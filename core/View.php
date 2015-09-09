@@ -59,11 +59,10 @@ class View {
             if (!$cache->get($file)) {
 
                 $cache->put($file, $output);
-            }
-            else {
+            } else {
                 $output = $cache->get($file);
             }
-        } 
+        }
 
         return $output;
     }
@@ -86,12 +85,11 @@ class View {
                 extract($data);
             }
 
-            require_once ROOT_PATH . 'system/views/' . $file . '.phtml';
-            
+            require_once( SYS_PATH . 'views' . DIRECTORY_SEPARATOR . $file . '.phtml');
+
             $output = ob_get_clean();
-            
+
             $content = $this->isCacheable($file, $output, $data);
-            
         } else {
 
             ob_end_clean();
@@ -115,7 +113,7 @@ class View {
 
             extract($this->_layoutData);
 
-            require_once ROOT_PATH . 'system/views/' . $this->_layout;
+            require_once( SYS_PATH . 'views' . DIRECTORY_SEPARATOR . $this->_layout);
         } else {
             throw new Exception('Invalid type, expected array.');
         }
@@ -129,7 +127,7 @@ class View {
      */
     public function setTemplate($template) {
 
-        $dir = ROOT_PATH . 'system/views/' . $template;
+        $dir = SYS_PATH . 'views' . DIRECTORY_SEPARATOR . $template;
 
         if (file_exists($dir) && is_dir($dir)) {
 

@@ -18,8 +18,8 @@
  */
 $namespaces = array(
     CORE_PATH,
-    SYS_PATH . 'controllers/',
-    SYS_PATH . 'models/'
+    SYS_PATH . 'controllers',
+    SYS_PATH . 'models'
 );
 
 /*
@@ -31,17 +31,25 @@ function autoloader($class) {
      * Define namespaces with global
      */
     global $namespaces;
-
+    
+    /*
+     * Each namespaces
+     */
     foreach ($namespaces as $namespace) {
         
         /*
          * Search for the class file in our namespaces
          */
-        $path = $namespace . implode(DIRECTORY_SEPARATOR, explode('_', $class)) . '.php';
-
+        $path = $namespace .DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+        
+        /*
+         * Verify if file exists
+         */
         if (file_exists($path)) {
 
-            require_once $path;
+            require_once( $path );
+            
+            return;
         }
     }
 }

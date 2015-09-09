@@ -45,7 +45,7 @@ class Translate {
 
     public function __construct() {
 
-        $this->path = SYS_PATH . 'language/';
+        $this->path = SYS_PATH . 'language' . DIRECTORY_SEPARATOR;
 
         $this->language = $this->path . $this->language;
 

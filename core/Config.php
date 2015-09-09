@@ -23,20 +23,10 @@
 ini_set('display_errors', 'On');
 
 /*
- * Define global url
- */
-define("URL", 'http://projects.mvc/');
-
-/*
  * Define if cache is active
  * IMPORTANT: Disable this content on dinamically content
  */
 define("CACHE", false);
-
-/*
- * Define global app path
- */
-define("APP_PATH", $_SERVER['DOCUMENT_ROOT'] . '/');
 
 /*
  * Database settings
@@ -76,17 +66,17 @@ define("ROOT_PATH", APP_PATH);
 /*
  * Define path of core
  */
-define("CORE_PATH", APP_PATH . 'core/');
+define("CORE_PATH", APP_PATH . 'core' . DIRECTORY_SEPARATOR);
 
 /*
  * Define path of system
  */
-define("SYS_PATH", APP_PATH . 'system/');
+define("SYS_PATH", APP_PATH . 'system' . DIRECTORY_SEPARATOR);
 
 /*
  * Require autoload file
  */
-require_once 'Autoload.php';
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'Autoload.php');
 
 /*
  * Try start base router
@@ -94,6 +84,10 @@ require_once 'Autoload.php';
 try {
     // Figure out the URL pattern, and instantiate the application
     Router::init();
+    
+    /*
+     * Catch error
+     */
 } catch (Exception $e) {
 
     // Return error case exception exists

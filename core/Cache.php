@@ -33,7 +33,7 @@ class Cache {
      *
      * @var string
      */
-    private $pasta = 'cache/';
+    private $pasta = 'cache';
 
     /**
      * Construtor
@@ -46,7 +46,7 @@ class Cache {
      * @return void
      */
     function __construct() {
-
+        
     }
 
     /**
@@ -57,7 +57,7 @@ class Cache {
      */
     private function localArquivo($chave) {
 
-        return SYS_PATH . $this->pasta . sha1($chave) . '.tmp';
+        return SYS_PATH . $this->pasta . DIRECTORY_SEPARATOR . sha1($chave) . '.tmp';
     }
 
     private function comprimeDados($conteudo) {
@@ -73,7 +73,7 @@ class Cache {
      * @return boolean Se o arquivo foi criado
      */
     private function criaArquivo($chave, $conteudo) {
-        
+
         // Gera o nome do arquivo
         $arquivo = $this->localArquivo($chave);
 
@@ -94,11 +94,11 @@ class Cache {
     public function put($chave, $conteudo, $tempo = null) {
 
         $tempo = strtotime(!is_null($tempo) ? $tempo : self::$tempo);
-        
+
         $conteudo = serialize(array(
             'expira' => $tempo,
             'conteudo' => $conteudo));
-        
+
         return $this->criaArquivo($chave, $conteudo);
     }
 
@@ -114,7 +114,7 @@ class Cache {
         $arquivo = $this->localArquivo($chave);
 
         if (file_exists($arquivo) && is_readable($arquivo)) {
-            
+
             $data = @preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", file_get_contents($arquivo));
 
             $cache = unserialize($data);

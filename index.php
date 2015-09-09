@@ -33,10 +33,21 @@ ini_set('max_execution_time', 180);
  * Define nome dinâmico para a sessão
  */
 session_name(md5("mvc_" . $_SERVER['REMOTE_ADDR']));
+
 /*
  * session_set_cookie_params
  * Define periodo da sessão
  */
 session_set_cookie_params(2 * 7 * 24 * 60 * 60);
 
-require_once 'core/Config.php';
+/*
+ * Define global url
+ */
+define("URL", 'http://projects.mvc/');
+
+/*
+ * Define global app path
+ */
+define("APP_PATH", dirname(__FILE__) . DIRECTORY_SEPARATOR);
+
+require_once( APP_PATH . 'core' . DIRECTORY_SEPARATOR . 'Config.php');

@@ -18,24 +18,24 @@
  */
 
 class Model {
-    
     /*
      * Function to load model
      * @param varchar $model
      * @return object (Class name)
      */
+
     public function load($model = false) {
 
         // Just a file have be send
         if (!$model) {
             return;
         }
-        
+
         // Change the model name to lowercase
         $name = strtolower($model);
 
         // File path
-        $path = SYS_PATH . 'models/' . $name . '.php';
+        $path = SYS_PATH . 'models' . DIRECTORY_SEPARATOR . $name . '.php';
 
         // Verifica se o arquivo existe
         if (file_exists($path)) {
@@ -58,6 +58,7 @@ class Model {
      * @param char $url
      * @return rtrim url
      */
+
     public function clearURL($url) {
 
         if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
@@ -70,6 +71,7 @@ class Model {
     /*
      * Enconde json values
      */
+
     public function jsonEncode($str) {
 
         $a = array('"{\"', '\":\"');
@@ -83,6 +85,7 @@ class Model {
     /*
      * Verify if ajax request
      */
+
     final public function IsAJAX() {
 
         return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
