@@ -20,7 +20,7 @@
 /*
  * Define global url
  */
-define("URL", 'http://projects.mvc/');
+define("URL", 'http://localhost/LittleMVC/');
 
 /*
  * Displa all errors
@@ -55,7 +55,7 @@ define("DB_USER", 'root');
 /*
  * @DB_PASS
  */
-define("DB_PASS", '');
+define("DB_PASS", 'admin');
 
 /*
  * IMPORTANT

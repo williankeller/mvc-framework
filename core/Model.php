@@ -32,7 +32,7 @@ class Model {
         }
 
         // Change the model name to lowercase
-        $name = strtolower($model);
+        $name = ucfirst($model);
 
         // File path
         $path = SYS_PATH . 'models' . DIRECTORY_SEPARATOR . $name . '.php';

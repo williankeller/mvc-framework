@@ -86,8 +86,10 @@ class Router {
     /*
      * Start page class
      */
-    public function startPage($controllerName, $actionName) {
-
+    public function startPage($controller, $actionName) {
+        
+        $controllerName = ucfirst($controller);
+        
         if (class_exists($controllerName)) {
 
             $controllerClass = new $controllerName();
