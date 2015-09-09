@@ -41,13 +41,11 @@ session_name(md5("mvc_" . $_SERVER['REMOTE_ADDR']));
 session_set_cookie_params(2 * 7 * 24 * 60 * 60);
 
 /*
- * Define global url
- */
-define("URL", 'http://projects.mvc/');
-
-/*
  * Define global app path
  */
 define("APP_PATH", dirname(__FILE__) . DIRECTORY_SEPARATOR);
 
+/*
+ * File required to include all configs
+ */
 require_once( APP_PATH . 'core' . DIRECTORY_SEPARATOR . 'Config.php');

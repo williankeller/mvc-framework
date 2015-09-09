@@ -18,6 +18,11 @@
  */
 
 /*
+ * Define global url
+ */
+define("URL", 'http://projects.mvc/');
+
+/*
  * Displa all errors
  */
 ini_set('display_errors', 'On');
