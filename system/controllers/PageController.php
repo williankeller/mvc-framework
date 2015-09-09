@@ -25,7 +25,7 @@ class PageController extends Controller {
     public function indexAction() {
 
         $content = $this->view->factory('page/index', array(
-            '_model' => $this->model->load('pageModel'),
+            '_model' => $this->model->load('PageModel'),
             '_translate' => $this->translate
         ));
 
@@ -45,7 +45,7 @@ class PageController extends Controller {
 
         $content = $this->view->factory('page/edit', array(
             '_cache' => false,
-            '_model' => $this->model->load('pageModel'),
+            '_model' => $this->model->load('PageModel'),
             '_translate' => $this->translate
         ));
 
