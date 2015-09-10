@@ -28,28 +28,31 @@ class Model {
 
         // Just a file have be send
         if (!$model) {
+            
             return;
         }
 
-        // Change the model name to lowercase
+        // Change the model name first letter to upercase
         $name = ucfirst($model);
 
         // File path
         $path = SYS_PATH . 'models' . DIRECTORY_SEPARATOR . $name . '.php';
 
-        // Verifica se o arquivo existe
+        // Verify if file exists
         if (file_exists($path)) {
 
             // Include the file
             require_once $path;
 
-            /* @var $model_name type */
+            /* @var $name type */
             if (class_exists($name)) {
 
                 // Return class object
                 return new $name();
             }
             return;
+        } else {
+            throw new Exception(sprintf("Called model on this page not be found Model Name: [%s]", $name));
         }
     }
 

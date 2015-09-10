@@ -64,55 +64,87 @@ class Router {
              */
             $url = explode('/', $input_get);
 
+            // Set complete URI
             self::setUri($url);
 
+            // Shift url base
             $value = $this->shiftURL($url);
 
+            // Just verify if controller is called
             if (!empty($value['controller'])) {
 
+                // Set controller value
                 self::setController($value['controller']);
             }
+
+            // Just verify if the action in controller is called
             if (!empty($value['action'])) {
 
+                // Set action value
                 self::setAction($value['action']);
             }
-
-            self::setParam($value['param']);
+            // Just verify if exists parameter passed in action
+            if (!empty($value['param'])) {
+                
+                // Set parameter value
+                self::setParam($value['param']);
+            }
         }
-
+        
+        /*
+         * Start page constructor
+         * @var getController
+         * @var getAction
+         */
         $this->startPage(self::getController() . 'Controller', self::getAction() . 'Action');
     }
 
     /*
      * Start page class
+     * @throws Exception
+     * @param varchar $controller
+     * @param varchar $actionName
+     * @return instance of Set class
      */
+
     public function startPage($controller, $actionName) {
-        
+
+        // Change the model name first letter to upercase
         $controllerName = ucfirst($controller);
-        
+
         if (class_exists($controllerName)) {
 
             $controllerClass = new $controllerName();
 
+            // Just verify if method really exists
             if (!method_exists($controllerClass, $actionName)) {
 
                 throw new Exception(sprintf("[%s] class does not have a method called [%s].", $controllerName, $actionName));
             }
 
+            // Instance class object
             $controllerClass->$actionName();
         } else {
-
+            /*
+             * Include page error
+             */
             $this->toErrorPage('404');
         }
     }
 
     /*
      * Create page to error
+     * @throws Exception
+     * @param varchar $erro
+     * @return object instance
      */
+
     private function toErrorPage($error) {
 
+        // Set the action name
         $actionName = 'error' . $error . 'Action';
 
+        // Instance ErrorController 
         $controllerClass = new ErrorController();
 
         if (!method_exists($controllerClass, $actionName)) {
@@ -120,12 +152,16 @@ class Router {
             throw new Exception(sprintf("[%s] class does not have a method called [%s].", $controllerClass, $actionName));
         }
 
+        // Set action name
         $controllerClass->$actionName();
     }
 
     /*
      * Shift to separate URI itens
+     * @param array $url
+     * @return array $value
      */
+
     private function shiftURL($url) {
 
         $value = array();
