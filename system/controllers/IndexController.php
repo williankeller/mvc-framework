@@ -20,22 +20,52 @@
 class IndexController extends Controller {
 
     /**
-     * Default action.
+     * Default action called index.
      */
     public function indexAction() {
 
+        /*
+         * Factory file on /views/home/index.phtml
+         */
         $content = $this->view->factory('home/index', array(
+            /*
+             * Define _welcome variable
+             * @use $_welcome
+             */
             '_welcome' => "LittleMVC",
+            /*
+             * Define _translate obj
+             * @use $_translate
+             */
             '_translate' => $this->translate
         ));
 
         $data = array(
+            /*
+             * Defined in Page Meta Title
+             * @use $_title 
+             */
             '_title' => 'LittleMVC',
+            /*
+             * Defined in Page Meta Description
+             * @use $_description
+             */
             '_description' => 'Welcome! This is a little MVC.',
+            /*
+             * Defined in /views/layout.phtml 
+             * @use $_content
+             */
             '_content' => $content,
+            /*
+             * Define _translate obj
+             * @use $_translate
+             */
             '_translate' => $this->translate
         );
-
+        
+        /*
+         * To render data content
+         */
         $this->view->render($data);
     }
 

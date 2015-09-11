@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Copyright (C) 2015 wkeller
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,23 +25,46 @@ class ErrorController extends Controller {
     public function indexAction() {
         
     }
-    
+
     /*
      * Function to get lang Action
      */
     public function error404Action() {
 
-       $content = $this->view->factory('error/404', array(
+        /*
+         * Factory file on /views/error/404.phtml
+         */
+        $content = $this->view->factory('error/404', array(
             '_translate' => $this->translate
         ));
 
         $data = array(
+            /*
+             * Defined in Page Meta Title
+             * @use $_title 
+             */
             '_title' => 'Page not Found | Error 404',
+            /*
+             * Defined in Page Meta Description
+             * @use $_description
+             */
             '_description' => 'Sorry 404! Page not found',
+            /*
+             * Defined in /views/layout.phtml 
+             * @use $_content
+             */
             '_content' => $content,
+            /*
+             * Define _translate obj
+             * @use $_translate
+             */
             '_translate' => $this->translate
         );
 
+        /*
+         * To render data content
+         */
         $this->view->render($data);
     }
+
 }

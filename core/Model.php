@@ -23,13 +23,13 @@ class Model {
      * @param varchar $model
      * @return object (Class name)
      */
-
     public function load($model = false) {
 
-        // Just a file have be send
+        // See if exists model passed in function param
         if (!$model) {
             
-            return;
+            // Case not, get current controller as Model
+            $model = Router::getController() . 'Model';
         }
 
         // Change the model name first letter to upercase
@@ -61,7 +61,6 @@ class Model {
      * @param char $url
      * @return rtrim url
      */
-
     public function clearURL($url) {
 
         if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
@@ -73,8 +72,9 @@ class Model {
 
     /*
      * Enconde json values
+     * @param {varchar} $str
+     * @returns json
      */
-
     public function jsonEncode($str) {
 
         $a = array('"{\"', '\":\"');
@@ -88,7 +88,6 @@ class Model {
     /*
      * Verify if ajax request
      */
-
     final public function IsAJAX() {
 
         return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));

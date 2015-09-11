@@ -41,11 +41,20 @@ abstract class Controller {
      * Constructor.
      */
     public function __construct() {
-
+        
+        /*
+         * Define view param
+         */
         $this->view = new View();
-
+        
+        /*
+         * Define model param
+         */
         $this->model = new Model();
         
+        /*
+         * Define translate param
+         */
         $this->translate = new Translate();
     }
 

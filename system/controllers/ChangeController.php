@@ -25,15 +25,22 @@ class ChangeController extends Controller {
     public function indexAction() {
         
     }
-    
+
     /*
      * Function to get lang Action
      */
+
     public function langAction() {
 
+        /*
+         * Set lang with passed param
+         */
         $this->translate->setLang(Router::getParam());
         
-         header("Location:" . $_SERVER['HTTP_REFERER']);
+        /*
+         * Update page to same content
+         */
+        header("Location:" . $_SERVER['HTTP_REFERER']);
     }
 
 }
