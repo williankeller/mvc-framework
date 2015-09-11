@@ -3,7 +3,7 @@
 ####A little MVC framework to help in fast projects
 
 ### We have
-* Very easy to Install
+* Very easy to Install (2 steps)
 * MVC Structure
 * Translate System
 * Cache Content
@@ -14,27 +14,70 @@ To install the littleMVC application follow this steps:
 **Start open global config file**
 * Access file ```Config.php``` located on ```core``` folder;
 
-
-**Now you have to define your global url that be used on all links**
+**1. Now you have to define your global url that be used on all links**
 * **Important:** Always end url with a slash "/" (ever!)
-* Define your global URL on line ```27``` (Ex: http://myapplication.com/)
+* Define your global URL on line ```23``` (Ex: http://myapplication.com/)
 
-
-**Define Cache content activation.**
-* **Important:** Make disabled this content on dinamically content
-* On line ```33``` use boolean values ```true``` to enable and ```false``` to disable
-
-
-**Now, is a important change. If your application are inside a folder, please change this line.**
-* **Important:** Always end the folder with a slash "/" (ever!)
-* On line ```38``` after slash "/" add ypu folder (Ex: $_SERVER['DOCUMENT_ROOT'] . '/littleMVC/')
-
-
-**Simple? If you use. Now we start database configuration, try follow this**
+**2. Now define database configuration, follow this:**
+Go to line ```43```
 * DB_HOST - Your database host (Ex: localhost or 127.0.0.1)
 * DB_NAME - Your database name (Ex: littleMVC or anyway)
 * DB_USER - Your user used to access database (Ex: root or anyway)
 * DB_PASS - Your password used to access database
 
+### Create a new Page
+To create a new page in a MVC, you need three things, two of them being mandatory:
+* M = Model
+* V = View (required)
+* C = Controller (required)
 
-If you follow correctly this steps your application will start on currently page reload.
+Our MVC uses a simple and well laid structure to use and create. Then see how to create the ** Controller **
+Start by using the name of your page, and that's important.
+If your page will be called ```test```, so your controller should be named ```TestController```, see the exemple below
+```php
+class TestController extends Controller {
+  
+}
+```
+
+Great! Inside, you'll need an action, then even if it is index, then:
+```php
+class TestController extends Controller {
+  
+  /**
+   * Default action.
+   */
+  public function indexAction() {
+  
+  }
+}
+```
+
+Agora para renderizar sua página, siga esta função para fabircar o conteúdo:
+
+```php
+class TestController extends Controller {
+  
+  /**
+   * Default action.
+   */
+  public function indexAction() {
+    
+    // Taking the file in "ROOT/system/views/home/index.phtml"
+    $content = $this->view->factory('home/index');
+    
+    $data = array(
+      // Page Meta Title
+      '_title' => 'LittleMVC', 
+      // Page Meta Description
+      '_description' => 'Welcome! This is a little MVC.',
+      // Content created in Facroey function (required)
+      '_content' => $content, 
+    );
+    
+    // Content data to render
+    $this->view->render($data);
+  }
+}
+```
+
