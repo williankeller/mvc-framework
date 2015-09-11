@@ -18,18 +18,18 @@
 ;
 (function ($) {
 
-    var define = {
-        b: $('body'),
-        d: $(document),
-        w: $(window)
-    };
+  var define = {
+    b: $('body'),
+    d: $(document),
+    w: $(window)
+  };
 
-    onStart = function () {
+  onStart = function () {
 
-        define.b.addClass('started');
-    };
+    define.b.addClass('started');
+  };
 
-    onStart();
+  onStart();
 
 })(jQuery);
 
