@@ -82,21 +82,40 @@ class Router {
 
                 // Set action value
                 self::setAction($value['action']);
+
+                #echo $this->context($value['action']); die();
             }
             // Just verify if exists parameter passed in action
             if (!empty($value['param'])) {
-                
+
                 // Set parameter value
                 self::setParam($value['param']);
             }
         }
-        
+
         /*
          * Start page constructor
          * @var getController
          * @var getAction
          */
         $this->startPage(self::getController() . 'Controller', self::getAction() . 'Action');
+    }
+    
+    /*
+     * Make context for content strings
+     * @var string $str
+     * @returns varchar namespace function 
+     */
+    public function context($str) {
+        
+        // replace function callback to change fistname uppercase
+        $context = preg_replace_callback('/(?<=( |-))./', function ($m) {
+
+            return strtoupper($m[0]);
+        }, $str);
+        
+        // Return function base name
+        return str_replace(array("-", "_"), '', $context);
     }
 
     /*
@@ -106,7 +125,6 @@ class Router {
      * @param varchar $actionName
      * @return instance of Set class
      */
-
     public function startPage($controller, $actionName) {
 
         // Change the model name first letter to upercase
@@ -234,7 +252,7 @@ class Router {
      */
     private function setController($controller) {
 
-        self::$_controller = $controller;
+        self::$_controller = $this->context($controller);
     }
 
     /**
@@ -243,7 +261,7 @@ class Router {
      */
     private function setAction($action) {
 
-        self::$_action = $action;
+        self::$_action = $this->context($action);
     }
 
     /**
