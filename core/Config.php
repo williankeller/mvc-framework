@@ -35,7 +35,7 @@ define("CACHE", false);
 
 /*
  * Database settings
- * @DB_HOST @DB_NAME @DB_USER @DB_PASS
+ * @DB_HOST @DB_NAME @DB_USER @DB_PASS @DB_DBUG
  */
 /*
  * @DB_HOST
@@ -45,7 +45,7 @@ define("DB_HOST", 'localhost');
 /*
  * @DB_NAME
  */
-define("DB_NAME", 'littlemvc');
+define("DB_NAME", 'littlemmc');
 
 /*
  * @DB_USER
@@ -56,6 +56,11 @@ define("DB_USER", 'root');
  * @DB_PASS
  */
 define("DB_PASS", '');
+
+/*
+ * @DB_DBUG
+ */
+define("DB_DBUG", false);
 
 /*
  * IMPORTANT

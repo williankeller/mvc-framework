@@ -53,7 +53,7 @@ class Database {
         $this->password = defined('DB_PASS') ? DB_PASS : $this->password;
         $this->user = defined('DB_USER') ? DB_USER : $this->user;
         $this->charset = defined('DB_CHARSET') ? DB_CHARSET : $this->charset;
-        $this->debug = defined('DEBUG') ? DEBUG : $this->debug;
+        $this->debug = defined('DB_DBUG') ? DB_DBUG : $this->debug;
 
         // Conecta
         $this->connect();
@@ -89,13 +89,13 @@ class Database {
             unset($this->user);
             unset($this->charset);
         } catch (PDOException $e) {
+            
             // Verifica se devemos debugar
             if ($this->debug === true) {
                 // Mostra a mensagem de erro
-                echo "Erro: " . $e->getMessage();
+                echo "Database Error: " . $e->getMessage();
             }
-            // Kills the script
-            die();
+            
         } // catch
     }
 
