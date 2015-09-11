@@ -53,7 +53,7 @@ class TestController extends Controller {
 }
 ```
 
-Agora para renderizar sua página, siga esta função para fabircar o conteúdo:
+Now to render your page, follow this function to make content:
 
 ```php
 class TestController extends Controller {
