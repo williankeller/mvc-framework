@@ -108,8 +108,8 @@ class Router {
      */
     public function context($str) {
         
-        // replace function callback to change fistname uppercase
-        $context = preg_replace_callback('/(?<=( |-))./', function ($m) {
+        // replace function callback to change fist letter uppercase
+        $context = preg_replace_callback('/(?<=(-|_))./', function ($m) {
 
             return strtoupper($m[0]);
         }, $str);
