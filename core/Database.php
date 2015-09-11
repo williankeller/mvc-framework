@@ -46,8 +46,7 @@ class Database {
     public function __construct() {
 
         // Configura as propriedades novamente.
-        // Se você fez isso no início dessa classe, as constantes não serão
-        // necessárias. Você escolhe...
+        // Se você fez isso no início dessa classe, as constantes não serão necessárias. Você escolhe...
         $this->host = defined('DB_HOST') ? DB_HOST : $this->host;
         $this->db_name = defined('DB_NAME') ? DB_NAME : $this->db_name;
         $this->password = defined('DB_PASS') ? DB_PASS : $this->password;
