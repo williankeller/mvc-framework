@@ -73,14 +73,12 @@ class Cache {
      * @return boolean Se o arquivo foi criado
      */
     private function criaArquivo($chave, $conteudo) {
-
+        
         // Gera o nome do arquivo
         $arquivo = $this->localArquivo($chave);
-
-        $dados = $this->comprimeDados($conteudo);
-
-        // Cria o arquivo com o conteúdo
-        return file_put_contents($arquivo, $dados) OR trigger_error('Não foi possível criar o arquivo de cache', E_USER_ERROR);
+       
+        return file_put_contents($arquivo, $conteudo) 
+                OR Exception(sprintf("Can't create cache file. Failed to open stream: Permission denied in: [%s]", $arquivo));
     }
 
     /**
@@ -93,13 +91,15 @@ class Cache {
      */
     public function put($chave, $conteudo, $tempo = null) {
 
-        $tempo = strtotime(!is_null($tempo) ? $tempo : self::$tempo);
+        $expira = strtotime(!is_null($tempo) ? $tempo : self::$tempo);
+        
+        $dados = $this->comprimeDados($conteudo);
+        
+        $saida = serialize(array(
+            'expira' => $expira,
+            'conteudo' => base64_encode($dados)));
 
-        $conteudo = serialize(array(
-            'expira' => $tempo,
-            'conteudo' => $conteudo));
-
-        return $this->criaArquivo($chave, $conteudo);
+        return $this->criaArquivo($chave, $saida);
     }
 
     /**
@@ -115,13 +115,13 @@ class Cache {
 
         if (file_exists($arquivo) && is_readable($arquivo)) {
 
-            $data = @preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", file_get_contents($arquivo));
+            $data = file_get_contents($arquivo);
 
             $cache = unserialize($data);
 
             if ($cache['expira'] > time()) {
 
-                return $cache['conteudo'];
+                return base64_decode($cache['conteudo']);
             } else {
                 unlink($arquivo);
             }

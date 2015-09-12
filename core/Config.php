@@ -20,7 +20,7 @@
 /*
  * Define global url
  */
-define("URL", 'http://projects.mvc/');
+define("URL", 'http://localhost/LittleMVC/');
 
 /*
  * Displa all errors
@@ -31,7 +31,7 @@ ini_set('display_errors', 'On');
  * Define if cache is active
  * IMPORTANT: Disable this content on dinamically content
  */
-define("CACHE", false);
+define("CACHE", TRUE);
 
 /*
  * Database settings
