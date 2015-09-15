@@ -20,7 +20,7 @@
 /*
  * Define global url
  */
-define("URL", 'http://localhost/LittleMVC/');
+define("URL", 'http://projects.mvc/');
 
 /*
  * Displa all errors

@@ -4,13 +4,23 @@
         <meta charset="UTF-8">        
         <title><?php echo $_title; ?></title>
         <?php if (isset($_description)): ?>
-            <meta name="description" content="<?php echo $_description; ?>">
+          <meta name="description" content="<?php echo $_description; ?>">
         <?php endif; ?>
         <?php if (isset($_keywords)): ?>
-            <meta name="keywords" content="<?php echo $_keywords; ?>">
+          <meta name="keywords" content="<?php echo $_keywords; ?>">
         <?php endif; ?>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="<?php echo URL; ?>assets/css/min/main.min.css">
+        <?php
+        $dataCss = array(
+            'ensemble' => TRUE,
+            //'inherent' => TRUE,
+            'compress' => TRUE,
+            'includes' => array(
+                'assets/css/main.css'
+            )
+        );
+        Common::addFile($dataCss, 'css');
+        ?>
     </head>
     <body>
         <div id="wrapper">
@@ -20,7 +30,15 @@
             <p><?php echo $_translate->__('Language'); ?></p>
             <a href="<?php echo URL; ?>change/lang/pt-br">Português (BR)</a> | <a href="<?php echo URL; ?>change/lang/en-us">English (US)</a>
         </div>
+        <?php
+        $dataJs = array(
+            'ensemble' => TRUE,
+            'includes' => array(
+                'assets/js/lib/jquery.min.js',
+                'assets/js/scripts.js'
+            )
+        );
+        Common::addFile($dataJs, 'js');
+        ?>
     </body>
-    <script src="<?php echo URL; ?>assets/js/lib/jquery.min.js"></script>
-    <script src="<?php echo URL; ?>assets/js/min/app.min.js"></script>
 </html>
