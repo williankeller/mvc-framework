@@ -12,10 +12,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <?php
         $dataCss = array(
-            'ensemble' => TRUE,
-            //'inherent' => TRUE,
-            'compress' => TRUE,
-            'includes' => array(
+            'ensemble' => TRUE,   // Joins all files into one
+            #'inherent' => TRUE,  // Displays the contents of files
+            'compress' => TRUE,   // Compress files (Only with 'ensemble' or 'inherent')
+            'includes' => array(  // List of included files
                 'assets/css/main.css'
             )
         );
@@ -32,8 +32,10 @@
         </div>
         <?php
         $dataJs = array(
-            'ensemble' => TRUE,
-            'includes' => array(
+            'ensemble' => TRUE,   // Joins all files into one
+            #'inherent' => TRUE,  // Displays the contents of files
+            #'compress' => TRUE,   // Compress files (Only with 'ensemble' or 'inherent')
+            'includes' => array(  // List of included files
                 'assets/js/lib/jquery.min.js',
                 'assets/js/scripts.js'
             )
