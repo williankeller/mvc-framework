@@ -85,3 +85,7 @@ cache/
 
 # Remove sass cache
 .sass-cache
+
+# Ignore min files
+assets/css/min/
+assets/js/min/
