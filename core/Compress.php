@@ -130,12 +130,12 @@ class Compress {
 
         $content = $this->arrayContent($data['includes']);
 
-        $filename = 'assets/' . $this->type . '/min/' . md5(date('Y-m')) . '.' . $this->type;
+        $filename = $this->fileName() . '.' . $this->type;
 
         if (!file_exists($this->_folder($filename))) {
 
             $myfile = fopen($this->_folder($filename), "w") or die("Unable to open file!");
-            
+
             $cached = $this->fileCache($filename);
 
             if (isset($data['compress'])) {
@@ -149,6 +149,11 @@ class Compress {
         }
 
         return $this->_folder($filename, true);
+    }
+
+    protected function fileName() {
+
+        return 'assets/' . $this->type . '/min/' . md5($this->type . date('Y-m'));
     }
 
     private function arrayContent($files) {
