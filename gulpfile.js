@@ -22,15 +22,11 @@ var basePaths = {
 var paths = {
     images: {
         src: basePaths.src + 'images/',
-        dest: basePaths.dest + 'images/min/'
-    },
-    scripts: {
-        src: basePaths.src + 'js/',
-        dest: basePaths.dest + 'js/min/'
+        dest: basePaths.dest + 'images/'
     },
     styles: {
         src: basePaths.src + 'sass/',
-        dest: basePaths.dest + 'css/min/'
+        dest: basePaths.dest + 'css/'
     },
     sprite: {
         src: basePaths.src + 'images/sprite/*'
@@ -38,13 +34,11 @@ var paths = {
 };
 
 var appFiles = {
-    styles: paths.styles.src + '**/*.scss',
-    scripts: [paths.scripts.src + 'scripts.js']
+    styles: paths.styles.src + '**/*.scss'
 };
 
 var vendorFiles = {
-    styles: '',
-    scripts: ''
+    styles: ''
 };
 
 var spriteConfig = {
@@ -83,7 +77,6 @@ var changeEvent = function (evt) {
 
 /*
  * Compile SASS
- * Compress CSS
  */
 gulp.task('css', function () {
 
@@ -99,27 +92,12 @@ gulp.task('css', function () {
             });
 
     return es.concat(gulp.src(vendorFiles.styles), sassFiles)
-            .pipe(plugins.concat('main.min.css'))
             .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4', 'Firefox >= 4'))
             .pipe(isProduction ? plugins.combineMediaQueries({
                 log: true
             }) : gutil.noop())
-            .pipe(isProduction ? plugins.cssmin() : gutil.noop())
             .pipe(plugins.size())
             .pipe(gulp.dest(paths.styles.dest));
-});
-
-/*
- * Compress scripts
- */
-gulp.task('scripts', function () {
-
-    gulp.src(vendorFiles.scripts.concat(appFiles.scripts))
-            .pipe(plugins.concat('app.min.js'))
-            .pipe(isProduction ? plugins.uglify() : gutil.noop())
-            .pipe(plugins.size())
-            .pipe(gulp.dest(paths.scripts.dest));
-
 });
 
 /*
@@ -144,11 +122,8 @@ gulp.task('sprite', function () {
 /*
  * Watch content changes
  */
-gulp.task('watch', ['sprite', 'css', 'scripts'], function () {
+gulp.task('watch', ['sprite', 'css'], function () {
     gulp.watch(appFiles.styles, ['css']).on('change', function (evt) {
-        changeEvent(evt);
-    });
-    gulp.watch(paths.scripts.src + '*.js', ['scripts']).on('change', function (evt) {
         changeEvent(evt);
     });
     gulp.watch(paths.sprite.src, ['sprite']).on('change', function (evt) {
@@ -156,4 +131,4 @@ gulp.task('watch', ['sprite', 'css', 'scripts'], function () {
     });
 });
 
-gulp.task('default', ['css', 'watch'/*, 'scripts'*/]);
+gulp.task('default', ['css', 'watch']);

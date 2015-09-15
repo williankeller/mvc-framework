@@ -31,7 +31,7 @@ ini_set('display_errors', 'On');
  * Define if cache is active
  * IMPORTANT: Disable this content on dinamically content
  */
-define("CACHE", TRUE);
+define("CACHE", FALSE);
 
 /*
  * Database settings
