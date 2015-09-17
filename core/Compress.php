@@ -209,9 +209,13 @@ class Compress {
     }
 
     private function _folder($arquivo, $method = null) {
-
+        
+        if(strpos($arquivo, 'http://') !== 0 || strpos($arquivo, 'https://') !== 0) {
+        
+            return (($method != null) ? URL : APP_PATH) . $arquivo;
+        } 
         // Retorna a rota base do arquivo com a extenção
-        return (($method != null) ? URL : APP_PATH) . $arquivo;
+        return $arquivo;
     }
 
     /**
