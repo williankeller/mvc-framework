@@ -3,29 +3,31 @@
 ####A little MVC framework to help in fast projects
 
 ### We have
-* Very easy to Install (2 steps)
-* MVC Structure
+* Very fast installation (3 steps)
+* Easy MVC Structure
 * Translate System
-* Cache Content
+* Cache Content System
 
-### How to Install
+## Installation
+
+### How to auto install
 To install the littleMVC application follow this steps:
 
-**Start open global config file**
-* Access file ```Config.php``` located on ```core``` folder;
+**Type install into your URL**
+* http://localhost/littleMVC/```install``` 
+* Follow the nexts steps;
+* and ready!
 
-**1. Now you have to define your global url that be used on all links**
-* **Important:** Always end url with a slash "/" (ever!)
-* Define your global URL on line ```23``` (Ex: http://myapplication.com/)
+### How to manually install
 
-**2. Now define database configuration, follow this:**
-Go to line ```43```
+**. Now define database configuration, follow this:**
+Go to line ```37```
 * DB_HOST - Your database host (Ex: localhost or 127.0.0.1)
 * DB_NAME - Your database name (Ex: littleMVC or anyway)
 * DB_USER - Your user used to access database (Ex: root or anyway)
 * DB_PASS - Your password used to access database
 
-### Create a new Page
+## Create a new Page
 To create a new page in a MVC, you need three things, two of them being mandatory:
 * M = Model
 * V = View (required)
