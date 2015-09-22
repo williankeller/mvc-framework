@@ -32,13 +32,19 @@ ini_set('max_execution_time', 180);
  * session_name
  * Define nome dinâmico para a sessão
  */
-session_name(md5("mvc_" . $_SERVER['REMOTE_ADDR']));
+session_name(md5("lmvc" . $_SERVER['REMOTE_ADDR']));
 
 /*
  * session_set_cookie_params
  * Define periodo da sessão
  */
 session_set_cookie_params(2 * 7 * 24 * 60 * 60);
+
+/*
+ * session_session
+ * Inicia o inicio da sessão
+ */
+session_start();
 
 /*
  * Define global app path

@@ -1,11 +1,8 @@
 <section class="container">
-    <div class="row">
-        <div class="column-12 text-center m-top-10">
-            <h3><?php echo $_welcome; ?></h3>
-            <p><?php echo sprintf($_translate->__('Welcome! This is the %s'), 'littleMVC.');?></p>
-            <p><?php echo $_translate->__('See another page');?> <a href="<?php echo URL; ?>page"><?php echo $_translate->__('with URL parameter');?></a>.</p>
-            <span><?php echo $_translate->__('or');?></span>
-            <p><?php echo $_translate->__('A nice friendly URL');?> <a href="<?php echo URL; ?>page/another-page"><?php echo $_translate->__('page action');?></a>.</p>
-        </div>
-    </div>
+  <div class="demo-headline">
+    <h1 class="demo-logo">
+      <?php echo $_welcome; ?>
+      <small><?php echo sprintf($_translate->__('Welcome! This is the %s'), 'littleMVC.'); ?></small>
+    </h1>
+  </div>
 </section>

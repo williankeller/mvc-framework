@@ -1,0 +1,44 @@
+<?php
+$_model->databaseUsers();
+?>
+<section class="container">
+  <div class="demo-headline">
+    <h1 class="demo-logo">littleMVC</h1>
+  </div>
+  <div class="text-center">
+    <h4><?php echo $_translate->__('Your access account'); ?></h4>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+      <form method="post" action="">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input type="text" name="user[user]" placeholder="<?php echo $_translate->__('An username'); ?>" class="form-control">
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input type="text" name="user[email]" placeholder="<?php echo $_translate->__('Email'); ?>" class="form-control">
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input type="text" name="user[name]" placeholder="<?php echo $_translate->__('Your full name'); ?>" class="form-control">
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input type="password" name="user[pass]" placeholder="<?php echo $_translate->__('An secret password'); ?>" class="form-control">
+          </div>
+        </div>        
+        <br>
+        <div class="text-center">
+          <button type="submit" name="user[post]" class="btn btn-lg btn-primary">
+            <?php echo $_translate->__('Start littleMVC'); ?>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<?php unset($_SESSION['database']); ?>

@@ -1,46 +1,52 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">        
-        <title><?php echo $_title; ?></title>
-        <?php if (isset($_description)): ?>
-          <meta name="description" content="<?php echo $_description; ?>">
-        <?php endif; ?>
-        <?php if (isset($_keywords)): ?>
-          <meta name="keywords" content="<?php echo $_keywords; ?>">
-        <?php endif; ?>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <?php
-        $dataCss = array(
-            'ensemble' => TRUE,   // Joins all files into one
-            #'inherent' => TRUE,  // Displays the contents of files
-            'compress' => TRUE,   // Compress files (Only with 'ensemble' or 'inherent')
-            'includes' => array(  // List of included files
-                'assets/css/main.css'
-            )
-        );
-        Common::addFile($dataCss, 'css');
-        ?>
-    </head>
-    <body>
-        <div id="wrapper">
-            <?php echo $_content; ?>
-        </div>
-        <div class="to-translate text-center m-top-10">
-            <p><?php echo $_translate->__('Language'); ?></p>
-            <a href="<?php echo URL; ?>change/lang/pt-br">Português (BR)</a> | <a href="<?php echo URL; ?>change/lang/en-us">English (US)</a>
-        </div>
-        <?php
-        $dataJs = array(
-            'ensemble' => TRUE,   // Joins all files into one
-            #'inherent' => TRUE,  // Displays the contents of files
-            #'compress' => TRUE,   // Compress files (Only with 'ensemble' or 'inherent')
-            'includes' => array(  // List of included files
-                'assets/js/lib/jquery.min.js',
-                'assets/js/scripts.js'
-            )
-        );
-        Common::addFile($dataJs, 'js');
-        ?>
-    </body>
+  <head>
+    <meta charset="UTF-8">        
+    <title><?php echo $_title; ?></title>
+    <?php if (isset($_description)): ?>
+      <meta name="description" content="<?php echo $_description; ?>">
+    <?php endif; ?>
+    <?php if (isset($_keywords)): ?>
+      <meta name="keywords" content="<?php echo $_keywords; ?>">
+    <?php endif; ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php
+    $dataCss = array(
+        #'ensemble' => TRUE,   // Joins all files into one
+        #'inherent' => TRUE,  // Displays the contents of files
+        #'compress' => TRUE,   // Compress files (Only with 'ensemble' or 'inherent')
+        'includes' => array(// List of included files
+            'assets/css/lib/bootstrap.min.css',
+            'assets/css/lib/flat-ui.css',
+            'assets/css/main.css'
+        )
+    );
+    Common::addFile($dataCss, 'css');
+    ?>
+  </head>
+  <body>
+    <div id="wrapper">
+      <?php echo $_content; ?>
+    </div>
+    <div class="to-translate m-top-10">
+      <div>
+        <span><?php echo $_translate->__('Language'); ?></span>
+      </div>
+      <a href="<?php echo URL; ?>change/lang/pt-br">Português (BR)</a> | <a href="<?php echo URL; ?>change/lang/en-us">English (US)</a>
+    </div>
+    <?php
+    $dataJs = array(
+        'ensemble' => TRUE, // Joins all files into one
+        #'inherent' => TRUE,  // Displays the contents of files
+        #'compress' => TRUE,   // Compress files (Only with 'ensemble' or 'inherent')
+        'includes' => array(// List of included files
+            'assets/js/lib/jquery.min.js',
+            'assets/js/lib/flat-ui.min.js',
+            'assets/js/lib/application.js',
+            'assets/js/scripts.js'
+        )
+    );
+    Common::addFile($dataJs, 'js');
+    ?>
+  </body>
 </html>

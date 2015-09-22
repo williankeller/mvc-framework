@@ -18,11 +18,6 @@
  */
 
 /*
- * Define global url
- */
-define("URL", 'http://projects.mvc/');
-
-/*
  * Displa all errors
  */
 ini_set('display_errors', 'On');
@@ -34,29 +29,30 @@ ini_set('display_errors', 'On');
 define("CACHE", FALSE);
 
 /*
+ * Define global url
+ */
+define("URL", 'http://' . $_SERVER['SERVER_NAME'] . '/');
+
+/*
  * Database settings
  * @DB_HOST @DB_NAME, @DB_USER, @DB_PASS, @DB_DBUG
  */
 /*
  * @DB_HOST
  */
-define("DB_HOST", 'localhost');
-
+define('DB_HOST', 'localhost');
 /*
  * @DB_NAME
  */
-define("DB_NAME", 'littlemvc');
-
+define('DB_NAME', 'littlemvc');
 /*
  * @DB_USER
  */
-define("DB_USER", 'root');
-
+define('DB_USER', 'root');
 /*
  * @DB_PASS
  */
-define("DB_PASS", '');
-
+define('DB_PASS', '');
 /*
  * @DB_DBUG
  */
@@ -92,17 +88,17 @@ require_once(__DIR__ . DIRECTORY_SEPARATOR . 'Autoload.php');
  * Try start base router
  */
 try {
-    // Figure out the URL pattern, and instantiate the application
-    Router::init();
-    
-    /*
-     * Catch error
-     */
+  // Figure out the URL pattern, and instantiate the application
+  Router::init();
+
+  /*
+   * Catch error
+   */
 } catch (Exception $e) {
 
-    // Return error case exception exists
-    print '<pre>' . $e->getMessage();
-    print '<p>' . $e->getTraceAsString();
+  // Return error case exception exists
+  print '<pre>' . $e->getMessage();
+  print '<p>' . $e->getTraceAsString();
 
-    exit;
+  exit;
 }

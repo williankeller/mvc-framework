@@ -1,0 +1,46 @@
+<?php
+$_model->databaseSettings();
+?>
+<section class="container">
+  <div class="demo-headline">
+    <h1 class="demo-logo">littleMVC</h1>
+  </div>
+  <div class="text-center">
+    <h4><?php echo $_translate->__('Your site settings'); ?></h4>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+      <form method="post" action="">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input type="text" name="site[url]" value="<?php echo $_model->baseURL(); ?>" placeholder="<?php echo $_translate->__('Site base URL'); ?>" class="form-control">
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input type="text" name="site[name]"  placeholder="<?php echo $_translate->__('Site title'); ?>" class="form-control">
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input type="text" name="site[desc]" placeholder="<?php echo $_translate->__('Default description'); ?>" class="form-control">
+          </div>
+        </div>
+        <div class="text-center">
+          <input type="hidden" name="site[cache]" value="0"/> 
+          <?php echo $_translate->__('Cache system'); ?>
+          <div class="bootstrap-switch-square">
+            <input type="checkbox" name="site[cache]" value="1" data-toggle="switch" id="custom-switch-01" /> 
+          </div>
+        </div>
+        <br>
+        <div class="text-center">
+          <button type="submit" name="site[post]" class="btn btn-lg btn-primary">
+            <?php echo $_translate->__('Create'); ?>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<?php unset($_SESSION['database']); ?>

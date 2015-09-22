@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2015 wkeller
  *
@@ -31,6 +32,22 @@ class Common {
         echo $compress->addJavaScript($data);
         break;
     }
+  }
+
+  public static function r2($route) {
+
+    if ($route === 'referer') {
+
+      header('Location: ' . $_SERVER['HTTP_REFERER']);
+    }
+    header('Location: ' . URL . $route);
+  }
+
+  public static function installation() {
+
+    $this->db = new Database();
+
+    $this->db->query("SELECT * FROM");
   }
 
 }

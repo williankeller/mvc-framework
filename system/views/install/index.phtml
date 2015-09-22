@@ -1,0 +1,43 @@
+<?php 
+$_model->connectDatabase();
+?>
+<section class="container">
+  <div class="demo-headline">
+    <h1 class="demo-logo">littleMVC</h1>
+  </div>
+  <div class="text-center">
+    <h4><?php echo $_translate->__('Database connection'); ?></h4>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+      <form method="post" action="">
+        <div class="col-xs-12">
+          <div class="form-group <?php if (isset($_SESSION['database'])) echo $_SESSION['database']['response'];?>">
+            <input type="text" name="database[host]" value="<?php if (isset($_SESSION['database'])) echo $_SESSION['database']['host']; ?>" placeholder="<?php echo $_translate->__('Database host'); ?>" class="form-control">
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="form-group <?php if (isset($_SESSION['database'])) echo $_SESSION['database']['response'];?>">
+            <input type="text" name="database[name]" value="<?php if (isset($_SESSION['database'])) echo $_SESSION['database']['name']; ?>" placeholder="<?php echo $_translate->__('Database name'); ?>" class="form-control">
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="form-group <?php if (isset($_SESSION['database'])) echo $_SESSION['database']['response'];?>">
+            <input type="text" name="database[user]" value="<?php if (isset($_SESSION['database'])) echo $_SESSION['database']['user']; ?>" placeholder="<?php echo $_translate->__('Database user'); ?>" class="form-control">
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="form-group <?php if (isset($_SESSION['database'])) echo $_SESSION['database']['response'];?>">
+            <input type="password" name="database[pass]" value="<?php if (isset($_SESSION['database'])) echo $_SESSION['database']['pass']; ?>" placeholder="<?php echo $_translate->__('Database password'); ?>" class="form-control">
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" name="database[post]" class="btn btn-lg btn-primary">
+            <?php echo $_translate->__('Connect'); ?>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<?php unset($_SESSION['database']);?>
