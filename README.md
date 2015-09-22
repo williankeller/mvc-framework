@@ -20,7 +20,7 @@ To install the littleMVC application follow this steps:
 
 ### How to manually install
 
-**. Now define database configuration, follow this:**
+** Now define database configuration, follow this:**
 Go to line ```37```
 * DB_HOST - Your database host (Ex: localhost or 127.0.0.1)
 * DB_NAME - Your database name (Ex: littleMVC or anyway)
@@ -35,7 +35,7 @@ To create a new page in a MVC, you need three things, two of them being mandator
 
 Our MVC uses a simple and well laid structure to use and create. Then see how to create the ** Controller **
 Start by using the name of your page, and that's important.
-If your page will be called ```test```, so your controller should be named ```TestController```, see the exemple below
+If your page will be called ```test```, so your controller should be named ```TestController```, see the exemple below:
 ```php
 class TestController extends Controller {
   
@@ -82,4 +82,52 @@ class TestController extends Controller {
   }
 }
 ```
+
+## Create a new Model
+As with the controller, you need to create the file with the Model name, example: ```TestModel```
+```php
+class TestModel {
+
+}
+```
+
+Inside then, you can call connection with database, see:
+```php
+class TestModel {
+
+  protected $db;
+  
+  public function _contruct(){
+    
+    $this->db = new Database();
+  }
+}
+```
+
+That done, you can now make your own calls.
+
+```php
+class TestModel {
+
+  protected $db;
+  
+  public function _contruct(){
+    
+    $this->db = new Database();
+  }
+  
+  public function myFunction($user_id){
+    
+    $var = 10;
+    
+    $this->db->query("SELECT * FROM `users` WHERE `uid` = '{$user_id}'");
+    
+    return 'test';
+  }
+}
+```
+
+In your view.phtml you call ```$_model->myFunction($user_id);```
+
+
 
