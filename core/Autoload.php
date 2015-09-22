@@ -25,34 +25,36 @@ $namespaces = array(
 /*
  * Autoload Function
  */
-function autoloader($class) {
-    
-    /*
-     * Define namespaces with global
-     */
-    global $namespaces;
-    
-    /*
-     * Each namespaces
-     */
-    foreach ($namespaces as $namespace) {
-        
-        /*
-         * Search for the class file in our namespaces
-         */
-        $path = $namespace .DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
-        
-        /*
-         * Verify if file exists
-         */
-        if (file_exists($path)) {
 
-            require_once( $path );
-            
-            return;
-        }
+function autoloader($class) {
+
+  /*
+   * Define namespaces with global
+   */
+  global $namespaces;
+
+  /*
+   * Each namespaces
+   */
+  foreach ($namespaces as $namespace) {
+
+    /*
+     * Search for the class file in our namespaces
+     */
+    $path = $namespace . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+
+    /*
+     * Verify if file exists
+     */
+    if (file_exists($path)) {
+
+      require_once( $path );
+
+      return;
     }
+  }
 }
+
 /*
  * Register autoload function
  */

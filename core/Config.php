@@ -40,15 +40,15 @@ define("URL", 'http://' . $_SERVER['SERVER_NAME'] . '/');
 /*
  * @DB_HOST
  */
-define('DB_HOST', 'localhost');
+define('DB_HOST', '');
 /*
  * @DB_NAME
  */
-define('DB_NAME', 'littlemvc');
+define('DB_NAME', '');
 /*
  * @DB_USER
  */
-define('DB_USER', 'root');
+define('DB_USER', '');
 /*
  * @DB_PASS
  */
@@ -82,7 +82,7 @@ define("SYS_PATH", APP_PATH . 'system' . DIRECTORY_SEPARATOR);
 /*
  * Require autoload file
  */
-require_once(__DIR__ . DIRECTORY_SEPARATOR . 'Autoload.php');
+require_once('Autoload.php');
 
 /*
  * Try start base router
