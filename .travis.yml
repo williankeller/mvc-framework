@@ -1,0 +1,6 @@
+language: php
+notifications:
+  email:
+    recipients:
+      - n3p0rb1t@gmail.com
+    on_success: always
