@@ -9,7 +9,3 @@ php:
   - hhvm
 
 sudo: false
-
-install: travis_retry composer install
-
-script: composer ci
