@@ -1,22 +1,15 @@
 language: php
+
 php:
   - 5.3
   - 5.4
   - 5.5
   - 5.6
+  - 7
   - hhvm
-  - nightly
-
-env:
-  global:
-  - CI_HOME=$TRAVIS_BUILD_DIR
 
 sudo: false
 
-before_install:
-- gem install sass
-- gem install compass
-- gem install jsduck
-- npm install -g grunt-cli
-- npm install
-- curl -s https://getcomposer.org/installer | php --
+install: travis_retry composer install
+
+script: composer ci
