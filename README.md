@@ -1,4 +1,4 @@
-# Little MVC ![Version](https://img.shields.io/badge/Version-1.0.3-green.svg)
+# Little MVC ![PHP](https://img.shields.io/badge/System-PHP-orange.svg)   ![Version](https://img.shields.io/badge/Version-1.0.3-green.svg)  ![Status](https://img.shields.io/badge/Status-Beta-yellow.svg)
 
 ####A little MVC framework to help in fast projects
 
