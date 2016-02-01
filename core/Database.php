@@ -285,5 +285,3 @@ class Database {
 
     // delete
 }
-
-// Class Banco
