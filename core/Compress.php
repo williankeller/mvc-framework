@@ -132,7 +132,7 @@ class Compress {
 
         $filename = $this->fileName() . '.' . $this->type;
 
-        if (!file_exists($this->_folder($filename))) {
+        if (file_exists($this->_folder($filename))) {
 
             $myfile = fopen($this->_folder($filename), "w") or die("Unable to open file!");
 
