@@ -19,7 +19,6 @@
 
 class Common {
 
-  //put your code here
   public static function addFile($data, $type) {
 
     $compress = new Compress();
@@ -34,13 +33,22 @@ class Common {
     }
   }
 
-  public static function r2($route) {
+  public static function r2($route = '') {
 
-    if ($route === 'referer') {
-
-      header('Location: ' . $_SERVER['HTTP_REFERER']);
+    if ($route !== 'referer') {
+      header('Location: ' . URL . $route);
+      exit;
     }
-    header('Location: ' . URL . $route);
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit;
+  }
+
+  public static function hasSession() {
+
+    if (isset($_SESSION) && $_SESSION !== null) {
+      return true;
+    }
+    return false;
   }
 
   public static function installation() {
