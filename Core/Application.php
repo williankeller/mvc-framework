@@ -4,7 +4,7 @@
  * The application class.
  * Handles the request for each call to the application.
  *
- * Copyright (C) 2018 Magestat.
+ * Copyright (C) 2018 MVC Framework.
  * http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * Please see LICENSE.txt for the full text of the OSL 3.0 license
  */
