@@ -9,7 +9,7 @@
  * Please see LICENSE.txt for the full text of the OSL 3.0 license
  */
 
-namespace Core;
+namespace Application\Core;
 
 class Redirector
 {
@@ -18,10 +18,7 @@ class Redirector
      * Constructor
      *
      */
-    public function __construct()
-    {
-        
-    }
+    public function __construct();
 
     /**
      * Redirect to the given location

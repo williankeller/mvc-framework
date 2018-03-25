@@ -9,9 +9,9 @@
  * Please see LICENSE.txt for the full text of the OSL 3.0 license
  */
 
-namespace Core;
+namespace Application\Core;
 
-class Application
+class Registry
 {
 
     /**
@@ -143,19 +143,15 @@ class Application
      */
     private static function isControllerValid($controller)
     {
-        if (!empty($controller)) {
-            if (!preg_match('/\A[a-z]+\z/i', $controller) ||
-                strtolower($controller) === "errorscontroller" ||
-                !file_exists(APP . 'controllers/' . $controller . '.php')) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-        else {
+        if (empty($controller)) {
             return true;
         }
+        if (!preg_match('/\A[a-z]+\z/i', $controller) ||
+            strtolower($controller) === "errorscontroller" ||
+            !file_exists(APP . 'controllers/' . $controller . '.php')) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -169,40 +165,35 @@ class Application
      */
     private static function isMethodValid($controller, $method)
     {
-        if (!empty($method)) {
-            if (!preg_match('/\A[a-z]+\z/i', $method) ||
-                !method_exists($controller, $method) ||
-                strtolower($method) === "index") {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-        else {
+        if (empty($method)) {
             return true;
         }
+        if (!preg_match('/\A[a-z]+\z/i', $method) ||
+            !method_exists($controller, $method) ||
+            strtolower($method) === "index") {
+            return false;
+        }
+        return true;
     }
 
     /**
      * Split the URL for the current request.
-     *
      */
     public function splitUrl()
     {
-        $url = $this->request->query("url");
+        $request = $this->request->query("url");
 
-        if (!empty($url)) {
-
-            $url = explode('/', filter_var(trim($url, '/'), FILTER_SANITIZE_URL));
-
-            $this->controller = !empty($url[0]) ? ucwords($url[0]) . 'Controller' : null;
-            $this->method     = !empty($url[1]) ? $url[1] : null;
-
-            unset($url[0], $url[1]);
-
-            $this->args = !empty($url) ? array_values($url) : [];
+        if (empty($request)) {
+            return false;
         }
+        $url = explode('/', filter_var(trim($request, '/'), FILTER_SANITIZE_URL));
+
+        $this->controller = !empty($url[0]) ? ucwords($url[0]) . 'Controller' : null;
+        $this->method     = !empty($url[1]) ? $url[1] : null;
+
+        unset($url[0], $url[1]);
+
+        $this->args = !empty($url) ? array_values($url) : [];
     }
 
     /**

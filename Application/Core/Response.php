@@ -9,7 +9,7 @@
  * Please see LICENSE.txt for the full text of the OSL 3.0 license
  */
 
-namespace Core;
+namespace Application\Core;
 
 class Response
 {

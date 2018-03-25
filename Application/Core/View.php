@@ -9,13 +9,13 @@
  * Please see LICENSE.txt for the full text of the OSL 3.0 license
  */
 
-namespace Core;
+namespace Application\Core;
 
 class View
 {
 
     /**
-     * controller object that instantiated view object
+     * Controller object that instantiated view object
      *
      * @var object
      */
@@ -108,10 +108,8 @@ class View
         if ($this->controller->request->isAjax()) {
             return $this->renderJson(array("error" => $html));
         }
-        else {
-            $this->controller->response->setContent($html);
-            return $html;
-        }
+        $this->controller->response->setContent($html);
+        return $html;
     }
 
     /**
@@ -128,10 +126,8 @@ class View
         if ($this->controller->request->isAjax()) {
             return $this->renderJson(array("success" => $html));
         }
-        else {
-            $this->controller->response->setContent($html);
-            return $html;
-        }
+        $this->controller->response->setContent($html);
+        return $html;
     }
 
     /**
@@ -168,7 +164,7 @@ class View
     }
 
     /**
-     * formats timestamp string coming from the database.
+     * Formats timestamp string coming from the database.
      *
      * @param  string  $timestamp MySQL TIMESTAMP
      * @return string  Date after formatting.
