@@ -5,9 +5,8 @@ namespace Application\Controller;
 use Application\Core\Controller;
 use Application\Core\Handler;
 
-class Index extends Controller
+class Demo extends Controller
 {
-
     /**
      * {@inheritdoc}
      */
@@ -16,6 +15,11 @@ class Index extends Controller
         parent::beforeAction();
 
         // Pass data to script.
-        Handler::setScriptData('page', 'home');
+        Handler::setScriptData('page', 'error');
+    }
+
+    public function index()
+    {
+        $this->view->render();
     }
 }

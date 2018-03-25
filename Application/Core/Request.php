@@ -63,7 +63,7 @@ class Request
         $this->data   = $this->mergeData($_POST, $_FILES);
         $this->query  = $_GET;
         $this->url    = $this->fullUrl();
-        $this->params += isset($config["params"]) ? $config["params"] : [];
+        $this->params += isset($config['params']) ? $config['params'] : [];
     }
 
     /**

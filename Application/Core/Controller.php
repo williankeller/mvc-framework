@@ -161,7 +161,7 @@ class Controller
             500 => "system"
         ];
 
-        if (!isset($errors[$code]) || !method_exists("ErrorsController", $errors[$code])) {
+        if (!isset($errors[$code]) || !method_exists('Errors', $errors[$code])) {
             $code = 500;
         }
 
@@ -170,7 +170,7 @@ class Controller
 
         // clear, get page, then send headers
         $this->response->clearBuffer();
-        (new ErrorsController($this->request, $this->response))->{$action}();
+        (new Errors($this->request, $this->response))->{$action}();
 
         return $this->response;
     }

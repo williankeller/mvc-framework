@@ -5,7 +5,7 @@ namespace Application\Controller;
 use Application\Core\Controller;
 use Application\Core\Handler;
 
-class Index extends Controller
+class Errors extends Controller
 {
 
     /**
@@ -14,8 +14,11 @@ class Index extends Controller
     public function beforeAction()
     {
         parent::beforeAction();
-
-        // Pass data to script.
-        Handler::setScriptData('page', 'home');
     }
+
+    public function page404()
+    {
+        $this->view->render();
+    }
+
 }

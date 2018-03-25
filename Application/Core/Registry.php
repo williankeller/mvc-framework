@@ -64,34 +64,13 @@ class Registry
         if (!self::isControllerValid($this->controller)) {
             return $this->notFound();
         }
-
         if (!empty($this->controller)) {
-            $controllerName = $this->controller;
-
-            if (!self::isMethodValid($controllerName, $this->method)) {
-                return $this->notFound();
-            }
-            if (!empty($this->method)) {
-                if (!self::areArgsValid($controllerName, $this->method, $this->args)) {
-                    return $this->notFound();
-                }
-                // finally instantiate the controller object, and call it's action method.
-                return $this->invoke($controllerName, $this->method, $this->args);
-            }
-            else {
-                $this->method = "index";
-                if (!method_exists($controllerName, $this->method)) {
-                    return $this->notFound();
-                }
-
-                return $this->invoke($controllerName, $this->method, $this->args);
-            }
+            
         }
-        else {
-            // If no controller defined
-            $this->method = "index";
-            return $this->invoke("Index", $this->method, $this->args);
-        }
+
+        // If no controller defined
+        $this->method = 'index';
+        return $this->invoke("Index", $this->method, $this->args);
     }
 
     /**
@@ -103,10 +82,12 @@ class Registry
     private function buildControllerFunction($controller)
     {
         $function = '\\Application\\Controller\\' . $controller;
-        
+
         $this->controller = new $function($this->request, $this->response);
 
-        return $this;
+        $result = $this->controller->startupProcess();
+
+        return $result;
     }
 
     /**
@@ -125,9 +106,8 @@ class Registry
             'args' => $args
         ]);
         // Build Controller route.
-        $this->buildControllerFunction($controller);
+        $result = $this->buildControllerFunction($controller);
 
-        $result = $this->controller->startupProcess();
         if ($result instanceof Response) {
             return $result->send();
         }
@@ -159,8 +139,10 @@ class Registry
             return true;
         }
         if (!preg_match('/\A[a-z]+\z/i', $controller) ||
-            strtolower($controller) === "errorscontroller" ||
-            !file_exists(APP . 'controllers/' . $controller . '.php')) {
+            strtolower($controller) === "Errors") {
+            return false;
+        }
+        if (!file_exists(APPLICATION . '/Controller/' . $controller . '.php')) {
             return false;
         }
         return true;
@@ -182,7 +164,7 @@ class Registry
         }
         if (!preg_match('/\A[a-z]+\z/i', $method) ||
             !method_exists($controller, $method) ||
-            strtolower($method) === "index") {
+            strtolower($method) === 'index') {
             return false;
         }
         return true;
@@ -200,7 +182,7 @@ class Registry
         }
         $url = explode('/', filter_var(trim($request, '/'), FILTER_SANITIZE_URL));
 
-        $this->controller = !empty($url[0]) ? ucwords($url[0]) . 'Controller' : null;
+        $this->controller = !empty($url[0]) ? ucwords($url[0]) : null;
         $this->method     = !empty($url[1]) ? $url[1] : null;
 
         unset($url[0], $url[1]);
@@ -213,7 +195,7 @@ class Registry
      */
     private function notFound()
     {
-        return (new ErrorsController())->error(404)->send();
+        $this->invoke('Errors', 'page404');
     }
 
 }

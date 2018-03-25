@@ -102,8 +102,9 @@ class View
             $params['controller'],
             $params['action'],
         ];
+
         // Join to make a path.
-        $get    = implode('/', $router);
+        $get = implode('/', $router);
 
         $sections = [
             sprintf("%s/header%s", $block, '.phtml'),
@@ -129,42 +130,6 @@ class View
 
         $this->controller->response->type('application/json')->setContent($jsonData);
         return $jsonData;
-    }
-
-    /**
-     * Renders errors
-     * A json respond will be sent in case of ajax call
-     *
-     * @param  array  $errors
-     * @return mixed  Rendered output
-     */
-    public function renderErrors($errors)
-    {
-        $html = $this->render(Handler::get('VIEWS_PATH') . 'alerts/errors.php', ["errors" => $errors]);
-
-        if ($this->controller->request->isAjax()) {
-            return $this->renderJson(array("error" => $html));
-        }
-        $this->controller->response->setContent($html);
-        return $html;
-    }
-
-    /**
-     * Renders success message
-     * A json respond will be sent in case of ajax call
-     *
-     * @param  string  $message
-     * @return mixed  Rendered output
-     */
-    public function renderSuccess($message)
-    {
-        $html = $this->render(Handler::get('VIEWS_PATH') . 'alerts/success.php', array("success" => $message));
-
-        if ($this->controller->request->isAjax()) {
-            return $this->renderJson(array("success" => $html));
-        }
-        $this->controller->response->setContent($html);
-        return $html;
     }
 
     /**
