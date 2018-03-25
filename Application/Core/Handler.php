@@ -27,8 +27,8 @@ class Handler
      * @var array
      */
     private static $prefix = [
-        'default' => 'config',
-        'js' => 'javascript'
+        'default' => 'Default',
+        'js' => 'Javascript'
     ];
 
     /**
@@ -58,7 +58,7 @@ class Handler
      * @param $key string
      * @return string|array|null
      */
-    public static function getJsConfig($key = "")
+    public static function getScriptData($key = "")
     {
         return self::_get($key, self::$prefix['js']);
     }
@@ -69,9 +69,32 @@ class Handler
      * @param string $key
      * @param mixed  $value
      */
-    public static function setJsConfig($key, $value)
+    public static function setScriptData($key, $value)
     {
         self::_set($key, $value, self::$prefix['js']);
+    }
+
+    /**
+     * Normalizes an array, and converts it to a standard format.
+     *
+     * @param  array $arr
+     * @return array normalized array
+     */
+    public static function normalize($arr)
+    {
+        $keys   = array_keys($arr);
+        $count  = count($keys);
+        $newArr = [];
+
+        for ($i = 0; $i < $count; $i++) {
+            if (is_int($keys[$i])) {
+                $newArr[$arr[$keys[$i]]] = null;
+            }
+            else {
+                $newArr[$keys[$i]] = $arr[$keys[$i]];
+            }
+        }
+        return $newArr;
     }
 
     /**
@@ -84,15 +107,12 @@ class Handler
      */
     private static function _get($key, $source)
     {
-
         if (!isset(self::$config[$source])) {
-
-            $config_file = APP . 'config/' . $source . '.php';
+            $config_file = sprintf('%s/Core/Config/%s.php', APPLICATION, $source);
 
             if (!file_exists($config_file)) {
-                throw new Exception("Configuration file " . $source . " doesn't exist");
+                return null;
             }
-
             self::$config[$source] = require $config_file . "";
         }
 
@@ -102,7 +122,6 @@ class Handler
         else if (isset(self::$config[$source][$key])) {
             return self::$config[$source][$key];
         }
-
         return null;
     }
 
@@ -115,7 +134,6 @@ class Handler
      */
     private static function _set($key, $value, $source)
     {
-
         // load configurations if not already loaded
         if (!isset(self::$config[$source])) {
             self::_get($key, $source);

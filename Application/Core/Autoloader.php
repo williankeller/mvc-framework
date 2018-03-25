@@ -38,7 +38,7 @@ class Autoloader
     public function __construct($ns = null, $includePath = null)
     {
         $this->_namespace   = $ns;
-        $this->_includePath = $includePath;
+        $this->_includePath = BASE_DIR;
     }
 
     /**

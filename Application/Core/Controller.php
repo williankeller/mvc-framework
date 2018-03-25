@@ -94,13 +94,7 @@ class Controller
      */
     public function initialize()
     {
-        $this->loadComponents([
-            'Auth' => [
-                'authenticate' => ['User'],
-                'authorize' => ['Controller']
-            ],
-            'Security'
-        ]);
+        $this->loadComponents([]);
     }
 
     /**
@@ -112,14 +106,12 @@ class Controller
     {
         if (!empty($components)) {
 
-            $components = Utility::normalize($components);
+            $components = Handler::normalize($components);
 
             foreach ($components as $component => $config) {
-
                 if (!in_array($component, $this->components, true)) {
                     $this->components[] = $component;
                 }
-
                 $class = $component . "Component";
 
                 $this->{$component} = empty($config) ? new $class($this) : new $class($this, $config);
@@ -128,16 +120,11 @@ class Controller
     }
 
     /**
-     * triggers component startup methods.
-     * But, for auth, we are calling authentication and authorization separately
-     *
-     * You need to Fire the Components and Controller callbacks in the correct order,
-     * For example, Authorization depends on form element, so you need to trigger Security first.
-     *
+     * Triggers component startup methods.
      */
     private function triggerComponents()
     {
-        $components = ['Auth', 'Security'];
+        $components = [];
         foreach ($components as $key => $component) {
             if (!in_array($component, $this->components)) {
                 unset($components[$key]);
@@ -146,35 +133,12 @@ class Controller
 
         $result = null;
         foreach ($components as $component) {
-
-            if ($component === "Auth") {
-
-                $authenticate = $this->Auth->config("authenticate");
-                if (!empty($authenticate)) {
-                    if (!$this->Auth->authenticate()) {
-                        $result = $this->Auth->unauthenticated();
-                    }
-                }
-
-                // delay checking authorize till after the loop
-                $authorize = $this->Auth->config("authorize");
-            }
-            else {
-                $result = $this->{$component}->startup();
-            }
+            $result = $this->{$component}->startup();
 
             if ($result instanceof Response) {
                 return $result;
             }
         }
-
-        // authorize
-        if (!empty($authorize)) {
-            if (!$this->Auth->authorize()) {
-                $result = $this->Auth->unauthorized();
-            }
-        }
-
         return $result;
     }
 
@@ -214,11 +178,15 @@ class Controller
     /**
      * Called before the controller action.
      * Used to perform logic that needs to happen before each controller action.
-     *
      */
-    public function beforeAction()
+    public function beforeAction() {}
+
+    /**
+     * Default index to render index content.
+     */
+    public function index()
     {
-        
+        $this->view->render();
     }
 
     /**
@@ -244,17 +212,4 @@ class Controller
 
         return $this->{$model} = new $ucModel();
     }
-
-    /**
-     * forces SSL request
-     *
-     * @see core/components/SecurityComponent::secureRequired()
-     */
-    public function forceSSL()
-    {
-        $secured = "https://" . $this->request->fullUrlWithoutProtocol();
-
-        return $this->redirector->to($secured);
-    }
-
 }

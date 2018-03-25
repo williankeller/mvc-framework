@@ -281,7 +281,7 @@ class Session
         $_SESSION['generated_time'] = time();
 
         // Set session cookie setting manually
-        setcookie(session_name(), session_id(), time() + Config::get('SESSION_COOKIE_EXPIRY') /* a week */, Config::get('COOKIE_PATH'), Config::get('COOKIE_DOMAIN'), Config::get('COOKIE_SECURE'), Config::get('COOKIE_HTTP'));
+        setcookie(session_name(), session_id(), time() + Handler::get('SESSION_COOKIE_EXPIRY') /* a week */, Handler::get('COOKIE_PATH'), Handler::get('COOKIE_DOMAIN'), Handler::get('COOKIE_SECURE'), Handler::get('COOKIE_HTTP'));
     }
 
     /**

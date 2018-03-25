@@ -88,12 +88,25 @@ class Registry
             }
         }
         else {
-            // If no controller defined,
-            // then send to login controller, and it should take care of the request
-            // either redirect to login page, or dashboard.
+            // If no controller defined
             $this->method = "index";
-            return $this->invoke("LoginController", $this->method, $this->args);
+            return $this->invoke("Index", $this->method, $this->args);
         }
+    }
+
+    /**
+     * Build Controller route.
+     *
+     * @param string $controller
+     * @return $this
+     */
+    private function buildControllerFunction($controller)
+    {
+        $function = '\\Application\\Controller\\' . $controller;
+        
+        $this->controller = new $function($this->request, $this->response);
+
+        return $this;
     }
 
     /**
@@ -111,8 +124,8 @@ class Registry
             'action' => $method,
             'args' => $args
         ]);
-
-        $this->controller = new $controller($this->request, $this->response);
+        // Build Controller route.
+        $this->buildControllerFunction($controller);
 
         $result = $this->controller->startupProcess();
         if ($result instanceof Response) {
@@ -129,7 +142,6 @@ class Registry
         if ($response instanceof Response) {
             return $response->send();
         }
-
         return $this->response->send();
     }
 

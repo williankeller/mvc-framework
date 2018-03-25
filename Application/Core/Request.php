@@ -191,28 +191,6 @@ class Request
     }
 
     /**
-     * get content length
-     *
-     * @return integer
-     */
-    public function contentLength()
-    {
-        return (int) $_SERVER['CONTENT_LENGTH'];
-    }
-
-    /**
-     * checks if there is overflow in POST & FILES data.
-     * This will lead to having both $_POST & $_FILES = empty array.
-     *
-     * @return bool
-     */
-    public function dataSizeOverflow()
-    {
-        $contentLength = $this->contentLength();
-        return empty($this->data) && isset($contentLength);
-    }
-
-    /**
      * get the current uri of the request
      *
      * @return string|null
@@ -230,10 +208,9 @@ class Request
      */
     public function host()
     {
-
-        if (!$host = Environment::get('HTTP_HOST')) {
+        if (!$host = $this->environment('HTTP_HOST')) {
             if (!$host = $this->name()) {
-                $host = Enviroment::get('SERVER_ADDR');
+                $host = $this->environment('SERVER_ADDR');
             }
         }
 
@@ -257,8 +234,28 @@ class Request
 
             throw new UnexpectedValueException(sprintf('Untrusted Host "%s"', $host));
         }
-
         return $host;
+    }
+    
+    /**
+     * Gets an environment variable from $_SERVER, $_ENV, or using getenv()
+     *
+     * @param $key string
+     * @return string|null
+     */
+    public static function environment($key)
+    {
+        $val = null;
+        if (isset($_SERVER[$key])) {
+            $val = $_SERVER[$key];
+        }
+        elseif (isset($_ENV[$key])) {
+            $val = $_ENV[$key];
+        }
+        elseif (getenv($key) !== false) {
+            $val = getenv($key);
+        }
+        return $val;
     }
 
     /**
@@ -331,14 +328,13 @@ class Request
      */
     public function fullUrl()
     {
-
-        // get uri
+        // Get uri
         $uri = $this->uri();
         if (strpos($uri, '?') !== false) {
             list($uri) = explode('?', $uri, 2);
         }
 
-        // add querystring arguments(neglect 'url' & 'redirect')
+        // Add querystring arguments(neglect 'url' & 'redirect')
         $query    = "";
         $queryArr = $this->query;
         unset($queryArr['url']);
@@ -347,7 +343,6 @@ class Request
         if (!empty($queryArr)) {
             $query .= '?' . http_build_query($queryArr, null, '&');
         }
-
         return $this->getProtocolAndHost() . $uri . $query;
     }
 
@@ -366,16 +361,15 @@ class Request
     /**
      * Returns the base URL.
      *
-     * Examples:
-     *  * http://localhost/                         returns an empty string
-     *  * http://localhost/miniphp/public/user      returns miniphp
-     *  * http://localhost/miniphp/posts/view/123   returns miniphp
-     *
      * @return string
      */
     public function getBaseUrl()
     {
-        $baseUrl = str_replace(['public', '\\'], ['', '/'], dirname(Environment::get('SCRIPT_NAME')));
+        $baseUrl = str_replace(
+            ['public', '\\'],
+            ['', '/'],
+            dirname($this->environment('SCRIPT_NAME'))
+        );
         return $baseUrl;
     }
 

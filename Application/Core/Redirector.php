@@ -18,7 +18,7 @@ class Redirector
      * Constructor
      *
      */
-    public function __construct();
+    public function __construct() {}
 
     /**
      * Redirect to the given location

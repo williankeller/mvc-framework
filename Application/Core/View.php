@@ -15,6 +15,16 @@ class View
 {
 
     /**
+     * Build sections route.
+     */
+    const SECTIONS = '/View/Sections';
+
+    /**
+     * Build content route.
+     */
+    const CONTENTS = '/View/Contents';
+
+    /**
      * Controller object that instantiated view object
      *
      * @var object
@@ -38,9 +48,8 @@ class View
      * @param  string  $filePath
      * @param  array   $data
      * @return string  Rendered output
-     *
      */
-    public function render($filePath, $data = null)
+    public function content($filePath, $data = null)
     {
         if (!empty($data)) {
             extract($data);
@@ -64,20 +73,48 @@ class View
      * @param  array   $data
      * @return string  Rendered output
      */
-    public function renderWithLayouts($layoutDir, $filePath, $data = null)
+    public function render($data = null)
     {
         if (!empty($data)) {
             extract($data);
         }
 
         ob_start();
-        require_once $layoutDir . "header.php";
-        require_once $filePath . "";
-        require_once $layoutDir . "footer.php";
+        $this->loadSections();
         $renderedFile = ob_get_clean();
 
         $this->controller->response->setContent($renderedFile);
         return $renderedFile;
+    }
+
+    /**
+     * Build sections.
+     *
+     * @return $this
+     */
+    public function loadSections()
+    {
+        $block = APPLICATION . self::SECTIONS;
+        $pages = APPLICATION . self::CONTENTS;
+
+        $params = $this->controller->request->params;
+        $router = [
+            $params['controller'],
+            $params['action'],
+        ];
+        // Join to make a path.
+        $get    = implode('/', $router);
+
+        $sections = [
+            sprintf("%s/header%s", $block, '.phtml'),
+            sprintf("%s/{$get}%s", $pages, '.phtml'),
+            sprintf("%s/footer%s", $block, '.phtml'),
+        ];
+
+        foreach ($sections as $section) {
+            require_once $section;
+        }
+        return $this;
     }
 
     /**
@@ -103,7 +140,7 @@ class View
      */
     public function renderErrors($errors)
     {
-        $html = $this->render(Config::get('VIEWS_PATH') . 'alerts/errors.php', ["errors" => $errors]);
+        $html = $this->render(Handler::get('VIEWS_PATH') . 'alerts/errors.php', ["errors" => $errors]);
 
         if ($this->controller->request->isAjax()) {
             return $this->renderJson(array("error" => $html));
@@ -121,7 +158,7 @@ class View
      */
     public function renderSuccess($message)
     {
-        $html = $this->render(Config::get('VIEWS_PATH') . 'alerts/success.php', array("success" => $message));
+        $html = $this->render(Handler::get('VIEWS_PATH') . 'alerts/success.php', array("success" => $message));
 
         if ($this->controller->request->isAjax()) {
             return $this->renderJson(array("success" => $html));

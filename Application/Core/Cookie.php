@@ -74,9 +74,9 @@ class Cookie
         list ($encryptedUserId, self::$token, self::$hashedCookie) = $cookie_auth;
 
         // $hashedCookie was generated from the original user Id, NOT from the encrypted one.
-        self::$userId = Encryptor::decrypt($encryptedUserId);
+        self::$userId = ($encryptedUserId);
 
-        if (self::$hashedCookie === hash('sha256', self::$userId . ':' . self::$token . Config::get('COOKIE_SECRET_KEY')) && !empty(self::$token) && !empty(self::$userId)) {
+        if (self::$hashedCookie === hash('sha256', self::$userId . ':' . self::$token . Handler::get('COOKIE_SECRET_KEY')) && !empty(self::$token) && !empty(self::$userId)) {
             return true;
         }
         self::remove(self::$userId);
@@ -95,7 +95,7 @@ class Cookie
         self::$userId = self::$token = self::$hashedCookie = null;
 
         // How to kill/delete a cookie in a browser?
-        setcookie('auth', false, time() - (3600 * 3650), Config::get('COOKIE_PATH'), Config::get('COOKIE_DOMAIN'), Config::get('COOKIE_SECURE'), Config::get('COOKIE_HTTP'));
+        setcookie('auth', false, time() - (3600 * 3650), Handler::get('COOKIE_PATH'), Handler::get('COOKIE_DOMAIN'), Handler::get('COOKIE_SECURE'), Handler::get('COOKIE_HTTP'));
     }
 
     /**
@@ -113,14 +113,14 @@ class Cookie
 
         // generate cookie string(remember me)
         // Don't expose the original user id in the cookie, Encrypt It!
-        $cookieFirstPart = Encryptor::encrypt(self::$userId) . ':' . self::$token;
+        $cookieFirstPart = self::$token;
 
         // $hashedCookie generated from the original user Id, NOT from the encrypted one.
-        self::$hashedCookie = hash('sha256', self::$userId . ':' . self::$token . Config::get('COOKIE_SECRET_KEY'));
+        self::$hashedCookie = hash('sha256', self::$userId . ':' . self::$token . Handler::get('COOKIE_SECRET_KEY'));
 
         $authCookie = $cookieFirstPart . ':' . self::$hashedCookie;
 
-        setcookie('auth', $authCookie, time() + Config::get('COOKIE_EXPIRY'), Config::get('COOKIE_PATH'), Config::get('COOKIE_DOMAIN'), Config::get('COOKIE_SECURE'), Config::get('COOKIE_HTTP'));
+        setcookie('auth', $authCookie, time() + Handler::get('COOKIE_EXPIRY'), Handler::get('COOKIE_PATH'), Handler::get('COOKIE_DOMAIN'), Handler::get('COOKIE_SECURE'), Handler::get('COOKIE_HTTP'));
     }
 
 }
