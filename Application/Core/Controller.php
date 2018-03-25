@@ -98,16 +98,15 @@ class Controller
      * @param array $components
      */
     public function loadComponents(array $components)
-    {        die();
+    {
         if (!empty($components)) {
-            die();
             $components = Handler::normalize($components);
 
             foreach ($components as $component => $config) {
                 if (!in_array($component, $this->components, true)) {
                     $this->components[] = $component;
                 }
-                $class = $component . "Component";
+                $class = $component;
 
                 $this->{$component} = empty($config) ? new $class($this) : new $class($this, $config);
             }
