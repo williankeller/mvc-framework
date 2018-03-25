@@ -80,11 +80,6 @@ class Controller
         $this->initialize();
 
         $this->beforeAction();
-
-        $result = $this->triggerComponents();
-        if ($result instanceof Response) {
-            return $result;
-        }
     }
 
     /**
@@ -103,9 +98,9 @@ class Controller
      * @param array $components
      */
     public function loadComponents(array $components)
-    {
+    {        die();
         if (!empty($components)) {
-
+            die();
             $components = Handler::normalize($components);
 
             foreach ($components as $component => $config) {
@@ -117,29 +112,6 @@ class Controller
                 $this->{$component} = empty($config) ? new $class($this) : new $class($this, $config);
             }
         }
-    }
-
-    /**
-     * Triggers component startup methods.
-     */
-    private function triggerComponents()
-    {
-        $components = [];
-        foreach ($components as $key => $component) {
-            if (!in_array($component, $this->components)) {
-                unset($components[$key]);
-            }
-        }
-
-        $result = null;
-        foreach ($components as $component) {
-            $result = $this->{$component}->startup();
-
-            if ($result instanceof Response) {
-                return $result;
-            }
-        }
-        return $result;
     }
 
     /**

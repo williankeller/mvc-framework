@@ -15,10 +15,10 @@ class Demo extends Controller
         parent::beforeAction();
 
         // Pass data to script.
-        Handler::setScriptData('page', 'error');
+        Handler::setScriptData('page', 'demo');
     }
 
-    public function index()
+    public function test()
     {
         $this->view->render();
     }

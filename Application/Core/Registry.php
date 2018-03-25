@@ -61,16 +61,22 @@ class Registry
         // split the requested URL
         $this->splitUrl();
 
-        if (!self::isControllerValid($this->controller)) {
+        if (!$this->isControllerValid($this->controller)) {
             return $this->notFound();
         }
-        if (!empty($this->controller)) {
-            
+
+        if (empty($this->controller)) {
+            $this->controller = 'Index';
         }
 
-        // If no controller defined
-        $this->method = 'index';
-        return $this->invoke("Index", $this->method, $this->args);
+        if (empty($this->method)) {
+            $this->method = 'index';
+        }
+
+        if (!$this->isMethodValid($this->controller, $this->method)) {
+            return $this->notFound();
+        }
+        return $this->invoke($this->controller, $this->method, $this->args);
     }
 
     /**
@@ -79,15 +85,14 @@ class Registry
      * @param string $controller
      * @return $this
      */
-    private function buildControllerFunction($controller)
+    private function buildControllerFunction($controller, $isNamespace = false)
     {
         $function = '\\Application\\Controller\\' . $controller;
 
+        if ($isNamespace) {
+            return $function;
+        }
         $this->controller = new $function($this->request, $this->response);
-
-        $result = $this->controller->startupProcess();
-
-        return $result;
     }
 
     /**
@@ -98,7 +103,7 @@ class Registry
      * @param  array  $args
      * @return Response 
      */
-    private function invoke($controller, $method = "index", $args = [])
+    private function invoke($controller, $method, $args = [])
     {
         $this->request->addParams([
             'controller' => $controller,
@@ -106,17 +111,18 @@ class Registry
             'args' => $args
         ]);
         // Build Controller route.
-        $result = $this->buildControllerFunction($controller);
+        $this->buildControllerFunction($controller);
 
+        $result = $this->controller->startupProcess();
         if ($result instanceof Response) {
             return $result->send();
         }
 
-        if (!empty($args)) {
-            $response = call_user_func_array([$this->controller, $method], $args);
+        if (empty($args)) {
+            $response = $this->controller->{$method}();
         }
         else {
-            $response = $this->controller->{$method}();
+            $response = call_user_func_array([$this->controller, $method], $args);
         }
 
         if ($response instanceof Response) {
@@ -133,7 +139,7 @@ class Registry
      * @param  string $controller
      * @return boolean
      */
-    private static function isControllerValid($controller)
+    private function isControllerValid($controller)
     {
         if (empty($controller)) {
             return true;
@@ -157,14 +163,17 @@ class Registry
      * @param string $method
      * @return boolean
      */
-    private static function isMethodValid($controller, $method)
+    private function isMethodValid($controller, $method)
     {
         if (empty($method)) {
             return true;
         }
-        if (!preg_match('/\A[a-z]+\z/i', $method) ||
-            !method_exists($controller, $method) ||
-            strtolower($method) === 'index') {
+        if (!preg_match('/\A[a-z]+\z/i', $method)) {
+            return false;
+        }
+
+        $function = $this->buildControllerFunction($controller, true);
+        if (!method_exists($function, $method)) {
             return false;
         }
         return true;
@@ -175,7 +184,7 @@ class Registry
      */
     public function splitUrl()
     {
-        $request = $this->request->query("url");
+        $request = $this->request->query('url');
 
         if (empty($request)) {
             return false;
