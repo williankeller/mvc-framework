@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="<?= $this->head('language'); ?>">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8"/>
         <title><?= $this->head('title'); ?></title>
-        <meta name="HandheldFriendly" content="true">
+        <meta name="description" content="<?= $this->head('description'); ?>">
+        <meta name="robots" content="<?= $this->head('robots'); ?>"/>
+        <meta name="keywords" content="<?= $this->head('keywords'); ?>"/>
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name=viewport content="width=device-width, initial-scale=1"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link rel="stylesheet" type="text/css" href="<?= $this->param('static'); ?>css/web-v1.css">
     </head>
     <body class="content">
         {{content}}
+        <script async src="<?= $this->param('static'); ?>js/web-v1.js"></script>
     </body>
 </html>

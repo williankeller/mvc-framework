@@ -2,10 +2,11 @@
 
 /**
  * The controller class.
- * The base controller for all other controllers.
- * Extend this for each created controller
+ * To extend for each controller.
  *
  * Copyright (C) 2018 MVC Framework.
+ * This file included in MVC Framework is licensed under OSL 3.0
+ *
  * http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * Please see LICENSE.txt for the full text of the OSL 3.0 license
  */
@@ -14,7 +15,6 @@ namespace Application\Core;
 
 class Controller
 {
-
     /**
      * view
      *
@@ -116,13 +116,13 @@ class Controller
      * Called before the controller action.
      * Used to perform logic that needs to happen before each controller action.
      */
-    public function beforeAction() {
-        // Add variables to site head.
-        $this->view->addHead([
-            'language'    => Handler::get('LANGUAGE'),
-            'title'       => Handler::get('TITLE'),
-            'description' => Handler::get('DESCRIPTION'),
-        ]);
+    public function beforeAction()
+    {
+        // Insert default parameters to head.
+        $this->defaultHeadParams();
+
+        // Insert default parameters to content.
+        $this->defaultContentParams();
     }
 
     /**
@@ -155,5 +155,38 @@ class Controller
         $ucModel = ucwords($model);
 
         return $this->{$model} = new $ucModel();
+    }
+
+    /**
+     * Insert default parameters to head.
+     * 
+     * @return $this
+     */
+    protected function defaultHeadParams()
+    {
+        // Add variables to site head.
+        $this->view->addHead([
+            'language'    => Handler::get('LANGUAGE'),
+            'title'       => Handler::get('TITLE'),
+            'description' => Handler::get('DESCRIPTION'),
+            'robots'      => Handler::get('ROBOTS'),
+            'keywords'    => Handler::get('KEYWORDS'),
+        ]);
+        return $this;
+    }
+
+    /**
+     * Insert default parameters to content.
+     * 
+     * @return $this
+     */
+    protected function defaultContentParams()
+    {
+        // Add variables to site head.
+        $this->view->addParams([
+            'static' => Handler::get('STATIC'),
+            'path'   => Handler::get('PATH'),
+        ]);
+        return $this;
     }
 }

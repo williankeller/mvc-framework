@@ -5,6 +5,8 @@
  * It contains the request information and provide methods to fetch request body
  *
  * Copyright (C) 2018 MVC Framework.
+ * This file included in MVC Framework is licensed under OSL 3.0
+ *
  * http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * Please see LICENSE.txt for the full text of the OSL 3.0 license
  */
@@ -12,7 +14,6 @@ namespace Application\Core;
 
 class Request
 {
-
     /**
      * Set a list of trusted hosts patterns.
      * 
@@ -26,9 +27,9 @@ class Request
      * @var array
      */
     public $params = [
-        "controller" => null,
-        "action" => null,
-        "args" => null
+        'controller' => null,
+        'action' => null,
+        'args' => null
     ];
 
     /**
@@ -102,7 +103,7 @@ class Request
     }
 
     /**
-     * safer and better access to $this->data
+     * Safer and better access to $this->data
      *
      * @param  string   $key
      * @return mixed
@@ -113,7 +114,7 @@ class Request
     }
 
     /**
-     * safer and better access to $this->query
+     * Safer and better access to $this->query
      *
      * @param  string   $key
      * @return mixed
@@ -124,7 +125,7 @@ class Request
     }
 
     /**
-     * safer and better access to $this->params
+     * Safer and better access to $this->params.
      *
      * @param  string   $key
      * @return mixed
@@ -135,7 +136,7 @@ class Request
     }
 
     /**
-     * detect if request is Ajax
+     * Detect if request is Ajax.
      *
      * @return boolean
      */
@@ -148,34 +149,33 @@ class Request
     }
 
     /**
-     * detect if request is POST request
+     * Detect if request is POST request.
      *
      * @return boolean
      */
     public function isPost()
     {
-        return $_SERVER["REQUEST_METHOD"] === "POST";
+        return $_SERVER['REQUEST_METHOD'] === 'POST';
     }
 
     /**
-     * detect if request is GET request
+     * Detect if request is GET request.
      *
      * @return boolean
      */
     public function isGet()
     {
-        return $_SERVER["REQUEST_METHOD"] === "GET";
+        return $_SERVER['REQUEST_METHOD'] === 'GET';
     }
 
     /**
-     * detect if request over secured connection(SSL)
+     * Detect if request over secured connection(SSL).
      *
      * @return boolean
-     *
      */
     public function isSSL()
     {
-        return isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== "off";
+        return isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
     }
 
     /**
@@ -191,7 +191,7 @@ class Request
     }
 
     /**
-     * get the current uri of the request
+     * Get the current URI of the request.
      *
      * @return string|null
      */
@@ -213,26 +213,17 @@ class Request
                 $host = $this->environment('SERVER_ADDR');
             }
         }
-
-        // trim and remove port number from host
+        // Trim and remove port number from host.
         $host = strtolower(preg_replace('/:\d+$/', '', trim($host)));
 
-        // check that it does not contain forbidden characters
-        if ($host && preg_replace('/(?:^\[)?[a-zA-Z0-9-:\]_]+\.?/', '', $host) !== '') {
-            throw new UnexpectedValueException(sprintf('Invalid Host "%s"', $host));
-        }
-
-        // TODO
-        // check the hostname against a trusted list of host patterns to avoid host header injection attacks
+        // Check the hostname against a trusted list of host
+        // patterns to avoid host header injection attacks.
         if (count(self::$trustedHostPatterns) > 0) {
-
             foreach (self::$trustedHostPatterns as $pattern) {
                 if (preg_match($pattern, $host)) {
                     return $host;
                 }
             }
-
-            throw new UnexpectedValueException(sprintf('Untrusted Host "%s"', $host));
         }
         return $host;
     }
@@ -245,17 +236,16 @@ class Request
      */
     public static function environment($key)
     {
-        $val = null;
         if (isset($_SERVER[$key])) {
-            $val = $_SERVER[$key];
+            return $_SERVER[$key];
         }
         elseif (isset($_ENV[$key])) {
-            $val = $_ENV[$key];
+            return $_ENV[$key];
         }
         elseif (getenv($key) !== false) {
-            $val = getenv($key);
+            return  getenv($key);
         }
-        return $val;
+        return null;
     }
 
     /**
@@ -335,7 +325,7 @@ class Request
         }
 
         // Add querystring arguments(neglect 'url' & 'redirect')
-        $query    = "";
+        $query    = '';
         $queryArr = $this->query;
         unset($queryArr['url']);
         unset($queryArr['redirect']);
@@ -348,7 +338,6 @@ class Request
 
     /**
      * Get the full URL for the request without the protocol.
-     * 
      * It could be useful to force a specific protocol.
      *
      * @return string
@@ -382,5 +371,4 @@ class Request
     {
         return $this->getProtocolAndHost() . $this->getBaseUrl();
     }
-
 }

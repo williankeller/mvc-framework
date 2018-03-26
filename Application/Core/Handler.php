@@ -5,6 +5,8 @@
  * Sets and Gets a configuration values.
  *
  * Copyright (C) 2018 MVC Framework.
+ * This file included in MVC Framework is licensed under OSL 3.0
+ *
  * http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * Please see LICENSE.txt for the full text of the OSL 3.0 license
  */
@@ -89,8 +91,7 @@ class Handler
         for ($i = 0; $i < $count; $i++) {
             if (is_int($keys[$i])) {
                 $newArr[$arr[$keys[$i]]] = null;
-            }
-            else {
+            } else {
                 $newArr[$keys[$i]] = $arr[$keys[$i]];
             }
         }
@@ -145,12 +146,12 @@ class Handler
     private static function _get($key, $source)
     {
         if (!isset(self::$config[$source])) {
-            $config_file = sprintf('%s/Core/Config/%s.php', APPLICATION, $source);
+            $config_file = sprintf('%s/handlers/%s.php', PUBLIC_PATH, $source);
 
             if (!file_exists($config_file)) {
                 return null;
             }
-            self::$config[$source] = require $config_file . "";
+            self::$config[$source] = require $config_file . '';
         }
 
         if (empty($key)) {
