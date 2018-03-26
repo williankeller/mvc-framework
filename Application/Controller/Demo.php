@@ -15,11 +15,21 @@ class Demo extends Controller
         parent::beforeAction();
 
         // Pass data to script.
-        Handler::setScriptData('page', 'demo');
+        Handler::setScript('page', 'demo');
     }
 
+    /**
+     * Test method action.
+     * This action will call view/Content/Demo/test file.
+     *
+     * @access public
+     */
     public function test()
     {
+        $this->view->addHead([
+            'title' => 'A',
+            'description' => 'B',
+        ]);
         $this->view->render();
     }
 }

@@ -32,6 +32,20 @@ class View
     public $controller;
 
     /**
+     * Parameters array that instantiated view page.
+     *
+     * @var array
+     */
+    public $head = [];
+
+    /**
+     * Parameters array that instantiated view page.
+     *
+     * @var array
+     */
+    public $params = [];
+
+    /**
      * Constructor
      *
      * @param Controller $controller
@@ -79,11 +93,32 @@ class View
             extract($data);
         }
 
-        ob_start();
-        $this->loadSections();
-        $renderedFile = ob_get_clean();
+        $rendered = $this->buildStrucure();
 
-        $this->controller->response->setContent($renderedFile);
+        $this->controller->response->setContent($rendered);
+        return $rendered;
+    }
+    
+    public function buildStrucure()
+    {
+        $sections = $this->loadSections();
+        $structure = $this->loadLayout();
+        
+        $rendered = str_replace('{{content}}', $sections, $structure);
+        
+        return $rendered;
+    }
+
+    public function loadLayout($layout = 'default')
+    {
+        // Enable object buffering.
+        ob_start();
+
+        // And include the file for parsing.
+        include sprintf('%s/View/Layout/%s.phtml', APPLICATION, $layout);
+
+        // Get the content of the view after parsing, and dispose of the buffer.
+        $renderedFile = ob_get_clean();
         return $renderedFile;
     }
 
@@ -94,8 +129,8 @@ class View
      */
     public function loadSections()
     {
-        $block = APPLICATION . self::SECTIONS;
-        $pages = APPLICATION . self::CONTENTS;
+        $block = Handler::get('SECTIONS');
+        $pages = Handler::get('CONTENTS');
 
         $params = $this->controller->request->params;
         $router = [
@@ -111,10 +146,64 @@ class View
             sprintf("%s/{$get}%s", $pages, '.phtml'),
             sprintf("%s/footer%s", $block, '.phtml'),
         ];
-
+            
+        ob_start();
         foreach ($sections as $section) {
-            require_once $section;
+            include $section;
         }
+        $renderedFile = ob_get_clean();
+        return $renderedFile;
+    }
+
+    /**
+     * Safer and better access to $this->head.
+     *
+     * @param  string   $key
+     * @return mixed
+     */
+    public function head($key)
+    {
+        if (!array_key_exists($key, $this->head)) {
+            return null;
+        }
+        return $this->head[$key];
+    }
+
+    /**
+     * Add parameters to $this->head.
+     *
+     * @param  array $params
+     * @return Request
+     */
+    public function addHead(array $params)
+    {
+        $this->head = array_merge($this->head, $params);
+        return $this;
+    }
+
+    /**
+     * Safer and better access to $this->params
+     *
+     * @param  string   $key
+     * @return mixed
+     */
+    public function param($key)
+    {
+        if (!array_key_exists($key, $this->params)) {
+            return null;
+        }
+        return $this->params[$key];
+    }
+
+    /**
+     * Add parameters to $this->params.
+     *
+     * @param  array $params
+     * @return Request
+     */
+    public function addParams(array $params)
+    {
+        $this->params = array_merge($this->params, $params);
         return $this;
     }
 
@@ -143,65 +232,4 @@ class View
     {
         return json_encode($data);
     }
-
-    /**
-     * Cuts a string to the length of $length and replaces the last characters
-     * with the ellipsis => '...' if the text is longer than length.
-     *
-     * @param  string $str
-     * @param  string $len
-     * @return string the truncated string
-     */
-    public function truncate($str, $len)
-    {
-        if (empty($str)) {
-            return "";
-        }
-        else if (mb_strlen($str, 'UTF-8') > $len) {
-            return mb_substr($str, 0, $len, "UTF-8") . " ...";
-        }
-        else {
-            return mb_substr($str, 0, $len, "UTF-8");
-        }
-    }
-
-    /**
-     * Formats timestamp string coming from the database.
-     *
-     * @param  string  $timestamp MySQL TIMESTAMP
-     * @return string  Date after formatting.
-     */
-    public function timestamp($timestamp, $format = "F j, Y")
-    {
-        $unixTime = strtotime($timestamp);
-
-        $date = date($format, $unixTime);
-
-        // What if date() failed to format? It will return false.
-        return (empty($date)) ? "" : $date;
-    }
-
-    /**
-     * Converts characters to HTML entities
-     * This is important to avoid XSS attacks, and attempts to inject malicious code in your page.
-     *
-     * @param  string $str The string.
-     * @return string
-     */
-    public function encodeHTML($str)
-    {
-        return htmlentities($str, ENT_QUOTES, 'UTF-8');
-    }
-
-    /**
-     * It's same as encodeHTML(), But, also use nl2br() function in PHP
-     *
-     * @param  string	The string.
-     * @return string	The string after converting characters and inserting br tags.
-     */
-    public function encodeHTMLWithBR($str)
-    {
-        return nl2br(htmlentities($str, ENT_QUOTES, 'UTF-8'));
-    }
-
 }

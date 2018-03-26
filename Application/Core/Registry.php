@@ -56,26 +56,35 @@ class Registry
         $this->response = new Response();
     }
 
+    /**
+     * Run content page loader.
+     *
+     * @return void
+     */
     public function run()
     {
-        // split the requested URL
+        // Split the requested URL.
         $this->splitUrl();
 
+        // Validate if controller exist.
         if (!$this->isControllerValid($this->controller)) {
             return $this->notFound();
         }
 
+        // Define default controller as index.
         if (empty($this->controller)) {
             $this->controller = 'Index';
         }
-
+        // Define action method as index.
         if (empty($this->method)) {
             $this->method = 'index';
         }
 
+        // Validade if method exist in controller.
         if (!$this->isMethodValid($this->controller, $this->method)) {
             return $this->notFound();
         }
+        // Load page.
         return $this->invoke($this->controller, $this->method, $this->args);
     }
 
@@ -204,7 +213,7 @@ class Registry
      */
     private function notFound()
     {
-        $this->invoke('Errors', 'page404');
+        $this->invoke('Errors', 'error404');
     }
 
 }

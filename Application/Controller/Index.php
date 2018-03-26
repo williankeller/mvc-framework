@@ -16,6 +16,6 @@ class Index extends Controller
         parent::beforeAction();
 
         // Pass data to script.
-        Handler::setScriptData('page', 'home');
+        Handler::setScript('page', 'home');
     }
 }

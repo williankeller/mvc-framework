@@ -3,7 +3,6 @@
 namespace Application\Controller;
 
 use Application\Core\Controller;
-use Application\Core\Handler;
 
 class Errors extends Controller
 {
@@ -16,7 +15,7 @@ class Errors extends Controller
         parent::beforeAction();
     }
 
-    public function page404()
+    public function errore404()
     {
         $this->view->render();
     }

@@ -83,7 +83,6 @@ class Response
      * @param string $content The response content
      * @param int    $status  The response status code
      * @param array  $headers An array of response headers
-     *
      */
     public function __construct($content = '', $status = 200, $headers = array())
     {
@@ -162,7 +161,7 @@ class Response
      * @param string $content The response content
      * @return Response
      */
-    public function setContent($content = "")
+    public function setContent($content = '')
     {
         $this->content = $content;
         return $this;

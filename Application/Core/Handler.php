@@ -58,7 +58,7 @@ class Handler
      * @param $key string
      * @return string|array|null
      */
-    public static function getScriptData($key = "")
+    public static function getScript($key = "")
     {
         return self::_get($key, self::$prefix['js']);
     }
@@ -69,7 +69,7 @@ class Handler
      * @param string $key
      * @param mixed  $value
      */
-    public static function setScriptData($key, $value)
+    public static function setScript($key, $value)
     {
         self::_set($key, $value, self::$prefix['js']);
     }
@@ -95,6 +95,43 @@ class Handler
             }
         }
         return $newArr;
+    }
+
+    /**
+     * Cuts a string to the length of $length and replaces the last characters
+     * with the ellipsis => '...' if the text is longer than length.
+     *
+     * @param  string $str
+     * @param  string $len
+     * @return string the truncated string
+     */
+    public function truncate($str, $len)
+    {
+        if (empty($str)) {
+            return "";
+        }
+        else if (mb_strlen($str, 'UTF-8') > $len) {
+            return mb_substr($str, 0, $len, "UTF-8") . " ...";
+        }
+        else {
+            return mb_substr($str, 0, $len, "UTF-8");
+        }
+    }
+
+    /**
+     * Formats timestamp string coming from the database.
+     *
+     * @param  string  $timestamp MySQL TIMESTAMP
+     * @return string  Date after formatting.
+     */
+    public function timestamp($timestamp, $format = "F j, Y")
+    {
+        $unixTime = strtotime($timestamp);
+
+        $date = date($format, $unixTime);
+
+        // What if date() failed to format? It will return false.
+        return (empty($date)) ? "" : $date;
     }
 
     /**

@@ -44,13 +44,6 @@ class Controller
     public $redirector;
 
     /**
-     * loaded components
-     *
-     * @var array
-     */
-    public $components = [];
-
-    /**
      * Constructor
      *
      * @param Request  $request
@@ -69,9 +62,6 @@ class Controller
     /**
      * Perform the startup process for this controller.
      * Events that that will be triggered for each controller:
-     * 1. load components
-     * 2. perform any logic before calling controller's action(method)
-     * 3. trigger startup method of loaded components
      * 
      * @return void|Response
      */
@@ -87,31 +77,7 @@ class Controller
      * initialize components and optionally, assign configuration data
      *
      */
-    public function initialize()
-    {
-        $this->loadComponents([]);
-    }
-
-    /**
-     * load the components by setting the component's name to a controller's property.
-     *
-     * @param array $components
-     */
-    public function loadComponents(array $components)
-    {
-        if (!empty($components)) {
-            $components = Handler::normalize($components);
-
-            foreach ($components as $component => $config) {
-                if (!in_array($component, $this->components, true)) {
-                    $this->components[] = $component;
-                }
-                $class = $component;
-
-                $this->{$component} = empty($config) ? new $class($this) : new $class($this, $config);
-            }
-        }
-    }
+    public function initialize() {}
 
     /**
      * show error page
@@ -150,7 +116,14 @@ class Controller
      * Called before the controller action.
      * Used to perform logic that needs to happen before each controller action.
      */
-    public function beforeAction() {}
+    public function beforeAction() {
+        // Add variables to site head.
+        $this->view->addHead([
+            'language'    => Handler::get('LANGUAGE'),
+            'title'       => Handler::get('TITLE'),
+            'description' => Handler::get('DESCRIPTION'),
+        ]);
+    }
 
     /**
      * Default index to render index content.
