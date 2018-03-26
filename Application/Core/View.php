@@ -13,17 +13,6 @@ namespace Application\Core;
 
 class View
 {
-
-    /**
-     * Build sections route.
-     */
-    const SECTIONS = '/View/Sections';
-
-    /**
-     * Build content route.
-     */
-    const CONTENTS = '/View/Contents';
-
     /**
      * Controller object that instantiated view object
      *
@@ -127,7 +116,6 @@ class View
         if (!empty($data)) {
             extract($data);
         }
-
         // Enable object buffering.
         ob_start();
 
